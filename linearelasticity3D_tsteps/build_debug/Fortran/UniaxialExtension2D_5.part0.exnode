@@ -1,0 +1,55 @@
+ Group name: Region 1           
+ #Fields=4
+ 1) Geometry, coordinate, rectangular cartesian, #Components=2
+   x.  Value index= 1, #Derivatives= 0
+   y.  Value index= 2, #Derivatives= 0
+ 2) Dependent, field,  rectangular cartesian, #Components=2
+   1.  Value index= 3, #Derivatives= 0
+   2.  Value index= 4, #Derivatives= 0
+ 3) del U_del n, field,  rectangular cartesian, #Components=2
+   1.  Value index= 5, #Derivatives= 0
+   2.  Value index= 6, #Derivatives= 0
+ 4) Material, field,  rectangular cartesian, #Components=3
+   1.  Value index= 7, #Derivatives= 0
+   2.  Value index= 8, #Derivatives= 0
+   3.  Value index= 9, #Derivatives= 0
+ Node:            1
+  0.0000000000000000E+00
+  0.0000000000000000E+00
+  0.0000000000000000E+00
+  0.0000000000000000E+00
+  3.3749999999999945E+03
+  -6.4233063312713057E-12
+  1.0000000000000000E+00
+  1.0000000000000000E+03
+  2.5000000000000000E-01
+ Node:            2
+  1.2000000000000000E+02
+  0.0000000000000000E+00
+  1.0987500000000000E+02
+  0.0000000000000000E+00
+  -3.3750000000000014E+03
+  -5.1727511163335294E-12
+  1.0000000000000000E+00
+  1.0000000000000000E+03
+  2.5000000000000000E-01
+ Node:            3
+  0.0000000000000000E+00
+  1.6000000000000000E+02
+  0.0000000000000000E+00
+  1.6337500000000000E+02
+  3.3750000000000009E+03
+  -1.2363443602225743E-12
+  1.0000000000000000E+00
+  1.0000000000000000E+03
+  2.5000000000000000E-01
+ Node:            4
+  1.2000000000000000E+02
+  1.6000000000000000E+02
+  1.0987500000000000E+02
+  1.6337500000000006E+02
+  -3.3749999999999955E+03
+  1.2732925824820995E-11
+  1.0000000000000000E+00
+  1.0000000000000000E+03
+  2.5000000000000000E-01

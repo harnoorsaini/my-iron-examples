@@ -1,0 +1,86 @@
+
+Solver:
+  Solver index = 1
+
+Nonlinear solve monitor:
+
+  Iteration number = 0
+  Function Norm =    9562.7557306127874
+  Newton solver information:
+    Number of function evaluations = 1
+    Number of Jacobian evaluations = 0
+
+Nonlinear solve monitor:
+
+  Iteration number = 1
+  Function Norm =    1324.8371969026493
+  Newton solver information:
+    Number of function evaluations = 2
+    Number of Jacobian evaluations = 1
+
+Nonlinear solve monitor:
+
+  Iteration number = 2
+  Function Norm =    471.28985850239724
+  Newton solver information:
+    Number of function evaluations = 3
+    Number of Jacobian evaluations = 2
+
+Nonlinear solve monitor:
+
+  Iteration number = 3
+  Function Norm =    43.594588077513478
+  Newton solver information:
+    Number of function evaluations = 4
+    Number of Jacobian evaluations = 3
+
+Nonlinear solve monitor:
+
+  Iteration number = 4
+  Function Norm =   0.88859172894933969
+  Newton solver information:
+    Number of function evaluations = 5
+    Number of Jacobian evaluations = 4
+
+Nonlinear solve monitor:
+
+  Iteration number = 5
+  Function Norm =    2.4985263706272848E-004
+  Newton solver information:
+    Number of function evaluations = 6
+    Number of Jacobian evaluations = 5
+
+Solver:
+  Solver index = 1
+
+Nonlinear solve monitor:
+
+  Iteration number = 0
+  Function Norm =    23.176781951651432
+  Newton solver information:
+    Number of function evaluations = 7
+    Number of Jacobian evaluations = 5
+
+Nonlinear solve monitor:
+
+  Iteration number = 1
+  Function Norm =    4.7450075227625419
+  Newton solver information:
+    Number of function evaluations = 8
+    Number of Jacobian evaluations = 6
+
+Nonlinear solve monitor:
+
+  Iteration number = 2
+  Function Norm =    1.5651836685556359E-003
+  Newton solver information:
+    Number of function evaluations = 9
+    Number of Jacobian evaluations = 7
+
+Nonlinear solve monitor:
+
+  Iteration number = 3
+  Function Norm =    1.0138191696728223E-010
+  Newton solver information:
+    Number of function evaluations = 10
+    Number of Jacobian evaluations = 8
