@@ -1,3 +1,12 @@
+! ---------------------------------------------------------------------------------------------------------------------------------
+!
+! SIMULATION OF A 3D HILL TYPE MUSCLE MODEL
+!
+! AUTHOR: HARNOOR SAINI
+! MARCH 2017
+!
+!
+! ------------------------ ORIGINAL FILE HEADER START ----------------------------
 !> \file
 !> \author Adam Reeve
 !> \brief This is an example program to solve a finite elasticity equation using OpenCMISS calls.
@@ -37,14 +46,8 @@
 !> and other provisions required by the GPL or the LGPL. If you do not delete
 !> the provisions above, a recipient may use your version of this file under
 !> the terms of any one of the MPL, the GPL or the LGPL.
-!>
-
-!> \example FiniteElasticity/LargeUniAxialExtension/src/LargeUniAxialExtensionExample.f90
-!! Example program to solve a finite elasticity equation using openCMISS calls.
-!! \par Latest Builds:
-!! \li <a href='http://autotest.bioeng.auckland.ac.nz/opencmiss-build/logs_x86_64-linux/FiniteElasticity/LargeUniAxialExtension/build-intel'>Linux Intel Build</a>
-!! \li <a href='http://autotest.bioeng.auckland.ac.nz/opencmiss-build/logs_x86_64-linux/FiniteElasticity/LargeUniAxialExtension/build-gnu'>Linux GNU Build</a>
-!<
+! ------------------------ ORIGINAL FILE HEADER END ---------------------------- 
+!
 
 !> Main program
 PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
@@ -65,27 +68,30 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
 #include "mpif.h"
 #endif
 
+!
+! ---------------------------------------------------------------------------------------------------------------------------------
+!
 
-  !Material-Parameters C=[mu_1, mu_2, mu_3, alpha_1, alpha_2, alpha_3, mu_0]
-  !REAL(CMISSRP), PARAMETER, DIMENSION(7) :: C= &
-  !  & [1.0_CMISSRP,0.0_CMISSRP,0.0_CMISSRP, & ! Neo-Hook
-  !  &  2.0_CMISSRP,4.0_CMISSRP,6.0_CMISSRP, &
-  !  &  1.0_CMISSRP] 
-  !Material-Parameters C=[mu_1, mu_2, mu_3, alpha_1, alpha_2, alpha_3, mu_0]
+  ! Material model is as described in Roehrle et. al. (2016)
+  ! Material parameters taken from Sprenger (2016) for the Biceps Brachii
+  !
+  ! Material-Parameters C = [ c1, c2, c3, c4, alpha ]
+  ! c1, c2 - Mooney-Rivlin hyperelastic parameters
+  ! c3, c4 - Passive response parameters
+  ! alpha - activation parameter
   REAL(CMISSRP), PARAMETER, DIMENSION(5) :: C= &
-    & [3.56E-2_CMISSRP,3.86E-2_CMISSRP,0.3E-8_CMISSRP, & ! Neo-Hook
+    & [3.56E-2_CMISSRP,3.86E-2_CMISSRP,0.3E-8_CMISSRP, &
     &  34.0_CMISSRP,0.0_CMISSRP ] 
-  !Test program parameters
-
+    
+  ! Test program parameters
   REAL(CMISSDP), PARAMETER :: PI=4.0_CMISSDP*DATAN(1.0_CMISSDP)
 
   REAL(CMISSRP), PARAMETER :: HEIGHT=1.0_CMISSRP
   REAL(CMISSRP), PARAMETER :: WIDTH=1.0_CMISSRP
   REAL(CMISSRP), PARAMETER :: LENGTH=1.0_CMISSRP
-!  INTEGER(CMISSIntg), PARAMETER :: InterpolationType=CMFE_BASIS_LINEAR_LAGRANGE_INTERPOLATION
+  !INTEGER(CMISSIntg), PARAMETER :: InterpolationType=CMFE_BASIS_LINEAR_LAGRANGE_INTERPOLATION
   INTEGER(CMISSIntg), PARAMETER :: InterpolationType=CMFE_BASIS_QUADRATIC_LAGRANGE_INTERPOLATION
   INTEGER(CMISSIntg), PARAMETER :: PressureInterpolationType=CMFE_BASIS_LINEAR_LAGRANGE_INTERPOLATION
-!  LOGICAL, PARAMETER :: UsePressureBasis=.TRUE.
   LOGICAL, PARAMETER :: UsePressureBasis=.TRUE.
   INTEGER(CMISSIntg), PARAMETER :: NumberOfGaussXi=3
 
@@ -104,12 +110,8 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   INTEGER(CMISSIntg), PARAMETER :: EquationsSetFieldUserNumber=5
   INTEGER(CMISSIntg), PARAMETER :: ProblemUserNumber=1
   
-
-
-  !Program types
-
-  !Program variables
-
+  ! Program types
+  ! Program variables
   INTEGER(CMISSIntg) :: NumberGlobalXElements,NumberGlobalYElements,NumberGlobalZElements
   INTEGER(CMISSIntg) :: EquationsSetIndex, TotalNumberOfNodes
   INTEGER(CMISSIntg) :: NumberOfComputationalNodes,NumberOfDomains,ComputationalNodeNumber
@@ -122,11 +124,10 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   INTEGER(CMISSIntg),ALLOCATABLE :: BackSurfaceNodes(:)
   INTEGER(CMISSIntg) :: BottomNormalXi,LeftNormalXi,RightNormalXi,FrontNormalXi
   INTEGER(CMISSIntg) :: NumberOfElementsFE, FibreFieldNumberOfComponents
-
   !INTEGER(CMISSIntg), PARAMETER :: NUMBER_OF_COMPONENTS = 3 !nearly incompressible
   INTEGER(CMISSIntg), PARAMETER :: NUMBER_OF_COMPONENTS = 4 !fully incompressible
 
-  !CMISS variables
+  ! CMISS variables
   TYPE(cmfe_BasisType) :: Basis, PressureBasis
   TYPE(cmfe_BoundaryConditionsType) :: BoundaryConditions
   TYPE(cmfe_CoordinateSystemType) :: CoordinateSystem, WorldCoordinateSystem
@@ -143,9 +144,7 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   TYPE(cmfe_SolverEquationsType) :: SolverEquations
   TYPE(cmfe_ControlLoopType) :: ControlLoop
   TYPE(cmfe_NodesType) :: Nodes
-  
-  
-!  INTEGER(CMISSIntg),DIMENSION(20) :: SomeNodes
+
   INTEGER(CMISSIntg) :: i
   CHARACTER(LEN=256) :: filename
   
@@ -155,36 +154,39 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   TYPE(WINDOWCONFIG) :: QUICKWIN_WINDOW_CONFIG
 #endif
 
-  !Generic CMISS variables
+  ! Generic CMISS variables
   INTEGER(CMISSIntg) :: Err
 
-  ! Variables, Parameters, ...
+  ! Variables, Parameters, ...for specific simulation
   INTEGER(CMISSIntg), PARAMETER :: TIMESTEPS=50 !Number of Timesteps
   REAL(CMISSRP) :: lambda_a
   REAL(CMISSRP), DIMENSION(TIMESTEPS) :: X
   REAL(CMISSRP) :: VALUE, BCLOAD, value1, value2
   REAL(CMISSRP) :: FibreFieldAngle(3)
 
+!
+! ---------------------------------------------------------------------------------------------------------------------------------
+!
+
 #ifdef WIN32
-  !Initialise QuickWin
+  ! Initialise QuickWin
   QUICKWIN_WINDOW_CONFIG%TITLE="General Output" !Window title
   QUICKWIN_WINDOW_CONFIG%NUMTEXTROWS=-1 !Max possible number of rows
   QUICKWIN_WINDOW_CONFIG%MODE=QWIN$SCROLLDOWN
-  !Set the window parameters
+  ! Set the window parameters
   QUICKWIN_STATUS=SETWINDOWCONFIG(QUICKWIN_WINDOW_CONFIG)
-  !If attempt fails set with system estimated values
+  ! If attempt fails set with system estimated values
   IF(.NOT.QUICKWIN_STATUS) QUICKWIN_STATUS=SETWINDOWCONFIG(QUICKWIN_WINDOW_CONFIG)
 #endif
 
-  !Intialise cmiss
+  ! Intialise cmiss
   CALL cmfe_Initialise(WorldCoordinateSystem,WorldRegion,Err)
-
   CALL cmfe_ErrorHandlingModeSet(CMFE_ERRORS_TRAP_ERROR,Err)
 
-  !Set all diganostic levels on for testing
+  ! Set all diganostic levels on for testing
   !CALL cmfe_DiagnosticsSetOn(CMFE_FROM_DIAG_TYPE,[1,2,3,4,5],"Diagnostics",["PROBLEM_RESIDUAL_EVALUATE"],Err)
 
-  !Get the number of computational nodes and this computational node number
+  ! Get the number of computational nodes and this computational node number
   CALL cmfe_ComputationalNumberOfNodesGet(NumberOfComputationalNodes,Err)
   CALL cmfe_ComputationalNodeNumberGet(ComputationalNodeNumber,Err)
 
@@ -194,19 +196,23 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   NumberOfElementsFE=NumberGlobalXElements*NumberGlobalYElements*NumberGlobalZElements
   NumberOfDomains=NumberOfComputationalNodes
 
-  !Create a 3D rectangular cartesian coordinate system
+  ! Create a 3D rectangular cartesian coordinate system
   CALL cmfe_CoordinateSystem_Initialise(CoordinateSystem,Err)
   CALL cmfe_CoordinateSystem_CreateStart(CoordinateSystemUserNumber,CoordinateSystem,Err)
   CALL cmfe_CoordinateSystem_CreateFinish(CoordinateSystem,Err)
 
-  !Create a region and assign the coordinate system to the region
+  ! Create a region and assign the coordinate system to the region
   CALL cmfe_Region_Initialise(Region,Err)
   CALL cmfe_Region_CreateStart(RegionUserNumber,WorldRegion,Region,Err)
   CALL cmfe_Region_LabelSet(Region,"Region",Err)
   CALL cmfe_Region_CoordinateSystemSet(Region,CoordinateSystem,Err)
   CALL cmfe_Region_CreateFinish(Region,Err)
 
-  !Define geometric basis
+!
+! ---------------------------------------------------------------------------------------------------------------------------------
+!
+
+  ! Define geometric basis
   CALL cmfe_Basis_Initialise(Basis,Err)
   CALL cmfe_Basis_CreateStart(BasisUserNumber,Basis,Err)
   SELECT CASE(InterpolationType)
@@ -230,7 +236,7 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   ENDIF
   CALL cmfe_Basis_CreateFinish(Basis,Err)
 
-  !Define pressure basis
+  ! Define pressure basis
   IF(UsePressureBasis) THEN
     CALL cmfe_Basis_Initialise(PressureBasis,Err)
     CALL cmfe_Basis_CreateStart(PressureBasisUserNumber,PressureBasis,Err)
@@ -257,18 +263,22 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
     CALL cmfe_Basis_CreateFinish(PressureBasis,Err)
   ENDIF
 
-  !Start the creation of a generated mesh in the region
+!
+! ---------------------------------------------------------------------------------------------------------------------------------
+!
+
+  ! Start the creation of a generated mesh in the region
   CALL cmfe_GeneratedMesh_Initialise(GeneratedMesh,Err)
   CALL cmfe_GeneratedMesh_CreateStart(GeneratedMeshUserNumber,Region,GeneratedMesh,Err)
-  !Set up a regular x*y*z mesh
+  ! Set up a regular x*y*z mesh
   CALL cmfe_GeneratedMesh_TypeSet(GeneratedMesh,CMFE_GENERATED_MESH_REGULAR_MESH_TYPE,Err)
-  !Set the default basis
+  ! Set the default basis
   IF(UsePressureBasis) THEN
     CALL cmfe_GeneratedMesh_BasisSet(GeneratedMesh,[Basis,PressureBasis],Err)
   ELSE
     CALL cmfe_GeneratedMesh_BasisSet(GeneratedMesh,[Basis],Err)
   ENDIF
-  !Define the mesh on the region
+  ! Define the mesh on the region
   IF(NumberGlobalXElements==0) THEN
     CALL cmfe_GeneratedMesh_ExtentSet(GeneratedMesh,[WIDTH,HEIGHT],Err)
     CALL cmfe_GeneratedMesh_NumberOfElementsSet(GeneratedMesh,[NumberGlobalXElements,NumberGlobalYElements],Err)
@@ -277,18 +287,22 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
     CALL cmfe_GeneratedMesh_NumberOfElementsSet(GeneratedMesh,[NumberGlobalXElements,NumberGlobalYElements, &
       & NumberGlobalZElements],Err)
   ENDIF
-  !Finish the creation of a generated mesh in the region
+  ! Finish the creation of a generated mesh in the region
   CALL cmfe_Mesh_Initialise(Mesh,Err)
   CALL cmfe_GeneratedMesh_CreateFinish(GeneratedMesh,MeshUserNumber,Mesh,Err)
 
-  !Create a decomposition
+  ! Create a decomposition
   CALL cmfe_Decomposition_Initialise(Decomposition,Err)
   CALL cmfe_Decomposition_CreateStart(DecompositionUserNumber,Mesh,Decomposition,Err)
   CALL cmfe_Decomposition_TypeSet(Decomposition,CMFE_DECOMPOSITION_CALCULATED_TYPE,Err)
   CALL cmfe_Decomposition_NumberOfDomainsSet(Decomposition,NumberOfDomains,Err)
   CALL cmfe_Decomposition_CreateFinish(Decomposition,Err)
 
-  !Create a field to put the geometry (default is geometry)
+!
+! ---------------------------------------------------------------------------------------------------------------------------------
+!
+
+  ! Create a field to put the geometry (default is geometry)
   CALL cmfe_Field_Initialise(GeometricField,Err)
   CALL cmfe_Field_CreateStart(FieldGeometryUserNumber,Region,GeometricField,Err)
   CALL cmfe_Field_MeshDecompositionSet(GeometricField,Decomposition,Err)
@@ -296,10 +310,10 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   CALL cmfe_Field_ScalingTypeSet(GeometricField,CMFE_FIELD_ARITHMETIC_MEAN_SCALING,Err)
   CALL cmfe_Field_CreateFinish(GeometricField,Err)
 
-  !Update the geometric field parameters
+  ! Update the geometric field parameters
   CALL cmfe_GeneratedMesh_GeometricParametersCalculate(GeneratedMesh,GeometricField,Err)
 
-  !Create a fibre field and attach it to the geometric field
+  ! Create a fibre field and attach it to the geometric field
   CALL cmfe_Field_Initialise(FibreField,Err)
   CALL cmfe_Field_CreateStart(FieldFibreUserNumber,Region,FibreField,Err)
   CALL cmfe_Field_TypeSet(FibreField,CMFE_FIELD_FIBRE_TYPE,Err)
@@ -307,7 +321,7 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   CALL cmfe_Field_GeometricFieldSet(FibreField,GeometricField,Err)
   CALL cmfe_Field_VariableLabelSet(FibreField,CMFE_FIELD_U_VARIABLE_TYPE,"Fibre",Err)
 
-! >>>> ADDED IN FROM MYLENA FOR FIBER ORIENTATION >>>> START
+  ! >>>> ADDED IN FROM MYLENA FOR FIBER ORIENTATION >>>> START
   CALL cmfe_Field_NumberOfVariablesSet(FibreField,1,Err)
   FibreFieldNumberOfComponents=3
   CALL cmfe_Field_NumberOfComponentsSet(FibreField,CMFE_FIELD_U_VARIABLE_TYPE,FibreFieldNumberOfComponents,Err) 
@@ -315,20 +329,20 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   CALL cmfe_Field_ComponentMeshComponentSet(FibreField,CMFE_FIELD_U_VARIABLE_TYPE,2,1,Err)
   CALL cmfe_Field_ComponentMeshComponentSet(FibreField,CMFE_FIELD_U_VARIABLE_TYPE,3,1,Err)
   
-! >>>> END
+  !                                                 >>>> END
   CALL cmfe_Nodes_Initialise(Nodes,Err)
   CALL cmfe_Region_NodesGet(Region,Nodes,Err)
   CALL cmfe_Nodes_NumberOfNodesGet(Nodes,TotalNumberOfNodes,Err)
   CALL cmfe_Field_CreateFinish(FibreField,Err)
-! >>>> ADDED IN FROM MYLENA FOR FIBER ORIENTATION >>>>
-  !Rotation Angles (in radiant!!)
+
+  ! >>>> ADDED IN FROM MYLENA FOR FIBER ORIENTATION >>>> START
+  ! Rotation Angles (in radiant!!)
   ! in 2D an entry in Angle(1) means rotated x-axis, 
   !          entry in Angle(2) doesn't make sense, as rotates out of surface ...
   ! in 3D an entry in Angle(1) means rotated around z-axis, entry in Angle(2) means rotated around y-axis
   !          entry in Angle(3) means rotated around x-axis => no change
   ! 45° equivalent to pi/4, 90° equivalent to pi/2
   ! 1 degree = 0.0174533rad
-
 
   FibreFieldAngle=(/10.0_CMISSRP*0.0174533_CMISSRP,0.0_CMISSRP,0.0_CMISSRP/)
 
@@ -341,8 +355,9 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
       ENDDO
     ENDIF
   ENDDO
-! >>>> END
-  !Create the material field
+  !                                                 >>>> END
+
+  ! Create the material field
   CALL cmfe_Field_Initialise(MaterialField,Err)
   CALL cmfe_Field_CreateStart(FieldMaterialUserNumber,Region,MaterialField,Err)
   CALL cmfe_Field_TypeSet(MaterialField,CMFE_FIELD_MATERIAL_TYPE,Err)
@@ -357,21 +372,18 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   CALL cmfe_Field_ComponentInterpolationSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,3,CMFE_FIELD_CONSTANT_INTERPOLATION,Err)
   CALL cmfe_Field_ComponentInterpolationSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,4,CMFE_FIELD_CONSTANT_INTERPOLATION,Err)
 
-  ! ======== the value of activation is different in each elemetnt see line 3303 in opencmiss_iron.f90
+  ! Required since value of activation is different at each point (see line 3303 in opencmiss_iron.f90)
+  ! Element based interpolation
   CALL cmfe_Field_ComponentInterpolationSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,5,CMFE_FIELD_ELEMENT_BASED_INTERPOLATION,Err)
-   !CALL cmfe_Field_ComponentInterpolationSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,5,CMFE_FIELD_NODE_BASED_INTERPOLATION,Err)
-  ! CALL cmfe_Field_ComponentInterpolationSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,5, & 
-  ! & CMFE_FIELD_GAUSS_POINT_BASED_INTERPOLATION,Err)
-   ! ============
+  ! Node based interpolation
+  !CALL cmfe_Field_ComponentInterpolationSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,5,CMFE_FIELD_NODE_BASED_INTERPOLATION,Err)
+  ! Gauss-point based interpolation
+  !CALL cmfe_Field_ComponentInterpolationSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,5, & 
+  !& CMFE_FIELD_GAUSS_POINT_BASED_INTERPOLATION,Err)
 
-  !CALL cmfe_Field_ComponentInterpolationSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,6,CMFE_FIELD_CONSTANT_INTERPOLATION,Err)
-  !CALL cmfe_Field_ComponentInterpolationSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,7,CMFE_FIELD_CONSTANT_INTERPOLATION,Err)
-  !CALL cmfe_Field_ComponentInterpolationSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,8,CMFE_FIELD_CONSTANT_INTERPOLATION,Err)
   CALL cmfe_Field_CreateFinish(MaterialField,Err)
 
-
-
-  !Create the dependent field
+  ! Create the dependent field
   CALL cmfe_Field_Initialise(DependentField,Err)
   CALL cmfe_Field_CreateStart(FieldDependentUserNumber,Region,DependentField,Err)
   CALL cmfe_Field_TypeSet(DependentField,CMFE_FIELD_GEOMETRIC_GENERAL_TYPE,Err)
@@ -385,7 +397,7 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   CALL cmfe_Field_NumberOfComponentsSet(DependentField,CMFE_FIELD_DELUDELN_VARIABLE_TYPE,NUMBER_OF_COMPONENTS,Err)
   !CALL cmfe_Field_NumberOfComponentsSet(DependentField,CMFE_FIELD_V_VARIABLE_TYPE,3,Err)
   IF(UsePressureBasis) THEN
-   !Set the pressure to be nodally based and use the second mesh component if required
+    ! Set the pressure to be nodally based and use the second mesh component if required
     CALL cmfe_Field_ComponentInterpolationSet(DependentField,CMFE_FIELD_U_VARIABLE_TYPE,4,CMFE_FIELD_NODE_BASED_INTERPOLATION,Err)
     CALL cmfe_Field_ComponentInterpolationSet(DependentField,CMFE_FIELD_DELUDELN_VARIABLE_TYPE,4, &
       & CMFE_FIELD_NODE_BASED_INTERPOLATION,Err)
@@ -394,43 +406,40 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   END IF
   CALL cmfe_Field_CreateFinish(DependentField,Err)
 
+!
+! ---------------------------------------------------------------------------------------------------------------------------------
+!
 
-  !Create the equations_set
+  ! Create the equations_set
   CALL cmfe_Field_Initialise(EquationsSetField,Err)
   CALL cmfe_EquationsSet_CreateStart(EquationSetUserNumber,Region,FibreField,[CMFE_EQUATIONS_SET_ELASTICITY_CLASS, &
-!    & CMFE_EQUATIONS_SET_FINITE_ELASTICITY_TYPE,CMFE_EQUATIONS_SET_NEARLY_INCOMPRESSIBLE_MOONEY_RIVLIN_SUBTYPE, &
- !   & CMFE_EQUATIONS_SET_FINITE_ELASTICITY_TYPE,CMFE_EQUATIONS_SET_ACTIVE_STRAIN_SUBTYPE], &
     & CMFE_EQUATIONS_SET_FINITE_ELASTICITY_TYPE,CMFE_EQUATIONS_SET_TRANSVERSE_ISOTROPIC_ACTIVE_SUBTYPE], &
-   ! & CMFE_EQUATIONS_SET_FINITE_ELASTICITY_TYPE,CMFE_EQUATIONS_SET_MOONEY_RIVLIN_SUBTYPE], &
     & EquationsSetFieldUserNumber,EquationsSetField,EquationsSet,Err)
   CALL cmfe_EquationsSet_CreateFinish(EquationsSet,Err)
 
-  !Create the equations set dependent field
+  ! Create the equations set dependent field
   CALL cmfe_EquationsSet_DependentCreateStart(EquationsSet,FieldDependentUserNumber,DependentField,Err)
   CALL cmfe_EquationsSet_DependentCreateFinish(EquationsSet,Err)
 
-  !Create the equations set material field 
+  ! Create the equations set material field 
   CALL cmfe_EquationsSet_MaterialsCreateStart(EquationsSet,FieldMaterialUserNumber,MaterialField,Err)
   CALL cmfe_EquationsSet_MaterialsCreateFinish(EquationsSet,Err)
 
-  !Set Material-Parameters [mu(1) mu(2) mu(3) alpha(1) alpha(2) alpha(3) mu_0 XB]
+  ! Set Material-Parameters [mu(1) mu(2) mu(3) alpha(1) alpha(2) alpha(3) mu_0 XB]
   CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,1,C(1),Err)
   CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,2,C(2),Err)
   CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,3,C(3),Err)
   CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,4,C(4),Err)
   CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,5,C(5),Err)
-  !CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,6,C(6),Err)
-  !CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,7,C(7),Err)
-  !CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,8,0.0_CMISSRP,Err)
 
-  !Create the equations set equations
+  ! Create the equations set equations
   CALL cmfe_Equations_Initialise(Equations,Err)
   CALL cmfe_EquationsSet_EquationsCreateStart(EquationsSet,Equations,Err)
   CALL cmfe_Equations_SparsityTypeSet(Equations,CMFE_EQUATIONS_SPARSE_MATRICES,Err)
   CALL cmfe_Equations_OutputTypeSet(Equations,CMFE_EQUATIONS_NO_OUTPUT,Err)
   CALL cmfe_EquationsSet_EquationsCreateFinish(EquationsSet,Err)
 
-  !Initialise dependent field from undeformed geometry and displacement bcs and set hydrostatic pressure
+  ! Initialise dependent field from undeformed geometry and displacement bcs and set hydrostatic pressure
   CALL cmfe_Field_ParametersToFieldParametersComponentCopy(GeometricField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE, &
     & 1,DependentField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,1,Err)
   CALL cmfe_Field_ParametersToFieldParametersComponentCopy(GeometricField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE, &
@@ -446,16 +455,17 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   !CALL cmfe_Field_ParametersToFieldParametersComponentCopy(GeometricField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE, &
   !  & 3,DependentField,CMFE_FIELD_V_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,3,Err)
 
+!
+! ---------------------------------------------------------------------------------------------------------------------------------
+!
 
-  !Define the problem
+  ! Define the problem
   CALL cmfe_Problem_Initialise(Problem,Err)
   CALL cmfe_Problem_CreateStart(ProblemUserNumber,[CMFE_PROBLEM_ELASTICITY_CLASS,CMFE_PROBLEM_FINITE_ELASTICITY_TYPE, &
     & CMFE_PROBLEM_NO_SUBTYPE],Problem,Err)
-!  CALL cmfe_Problem_SpecificationSet(Problem,CMFE_PROBLEM_ELASTICITY_CLASS,CMFE_PROBLEM_FINITE_ELASTICITY_TYPE, &
-!    & CMFE_PROBLEM_NO_SUBTYPE,Err)
   CALL cmfe_Problem_CreateFinish(Problem,Err)
 
-  !Create the problem control loop
+  ! Create the problem control loop
   CALL cmfe_Problem_ControlLoopCreateStart(Problem,Err)
   !CALL cmfe_ControlLoop_In itialise(ControlLoop,Err)
   !CALL cmfe_Problem_ControlLoopGet(Problem,CMFE_CONTROL_LOOP_NODE,ControlLoop,Err)
@@ -487,6 +497,10 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   CALL cmfe_Solver_SolverEquationsGet(Solver,SolverEquations,Err)
   CALL cmfe_SolverEquations_EquationsSetAdd(SolverEquations,EquationsSet,EquationsSetIndex,Err)
   CALL cmfe_Problem_SolverEquationsCreateFinish(Problem,Err)
+
+!
+! ---------------------------------------------------------------------------------------------------------------------------------
+!
 
   !Prescribe boundary conditions (absolute nodal parameters)
   CALL cmfe_BoundaryConditions_Initialise(BoundaryConditions,Err)
@@ -542,6 +556,9 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
 
   CALL cmfe_SolverEquations_BoundaryConditionsCreateFinish(SolverEquations,Err)
 
+!
+! ---------------------------------------------------------------------------------------------------------------------------------
+!
 
   CALL cmfe_Fields_Initialise(Fields,Err)
   CALL cmfe_Fields_Create(Region,Fields,Err)
@@ -666,6 +683,10 @@ CALL cmfe_Fields_NodesExport(Fields,filename,"FORTRAN",Err)
   CALL cmfe_Fields_NodesExport(Fields,"ActiveStrain_Isometric","FORTRAN",Err)
   CALL cmfe_Fields_ElementsExport(Fields,"ActiveStrain_Isometric","FORTRAN",Err)
   CALL cmfe_Fields_Finalise(Fields,Err)
+
+!
+! ---------------------------------------------------------------------------------------------------------------------------------
+!
 
   CALL cmfe_Finalise(Err)
 
