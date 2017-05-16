@@ -1,0 +1,371 @@
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!! EQUATION_SET block defines the governing equation!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!! It creates an object of derived type CMFE_EquationsSetType !!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+START_EQUATIONS_SET
+
+MODEL_ID
+FLUID
+
+CLASS
+EQUATIONS_SET_FLUID_MECHANICS_CLASS
+
+TYPE
+EQUATIONS_SET_NAVIER_STOKES_EQUATION_TYPE
+
+
+SUBTYPE
+EQUATIONS_SET_TRANSIENT_NAVIER_STOKES_SUBTYPE
+
+
+EQUATIONS_OUTPUT_TYPE_SET
+EQUATIONS_NO_OUTPUT
+
+
+END_EQUATIONS_SET
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!! PROBLEM block defines the governing equation!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!! It creates an object of derived type CMFE_ProblemType !!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+START_PROBLEM
+
+PROBLEM_ID
+FLUID
+
+CLASS
+PROBLEM_FLUID_MECHANICS_CLASS
+
+TYPE
+PROBLEM_NAVIER_STOKES_EQUATION_TYPE
+
+SUBTYPE
+PROBLEM_TRANSIENT_NAVIER_STOKES_SUBTYPE
+
+END_PROBLEM
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!! Creates a region to which geometric entities like ...!!!!!!!!!!!!!!!
+!!!!!!!!! Cooridnate System, Mesh are attached !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+START_REGION
+
+REGION_ID
+FLUID
+
+REGION_LABEL_SET
+Region
+
+END_REGION
+
+
+!!!!!!!!! Define Material Fields !!!!!!!!!!!!!!!!!!!
+
+START_MATERIAL_FIELD
+
+MATERIAL_FIELD_ID
+FLUID
+
+MATERIAL_FIELD_LABEL_SET
+Material
+
+
+MATERIAL_FIELD_PARAMETERS
+1,1         !! parameter values
+
+
+END_MATERIAL_FIELD
+
+
+
+!!!!!!!!! Define Geomtric Fields !!!!!!!!!!!!!!!!!!!
+
+START_GEOMETRIC_FIELD
+
+GEOMETRIC_FIELD_ID
+FLUID
+
+GEOMETRIC_FIELD_LABEL_SET
+Geometry
+
+
+END_GEOMETRIC_FIELD
+
+
+
+
+!!!!!!!! Define CONTROL LOOP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+START_CONTROL_LOOP
+
+CONTROL_LOOP_ID
+FLUID
+
+TYPE
+PROBLEM_CONTROL_TIME_LOOP_TYPE
+
+TIME_INCREMENTS
+0,0.1,0.01   !! initial_time,final_time,increment
+
+
+END_CONTROL_LOOP
+!!!!!!!!!!!!!!!! solver settings !!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+START_SOLVER_SETTINGS
+
+SOLVER_ID
+FLUID
+
+LINEAR_SOLVER_TYPE
+SOLVER_LINEAR_DIRECT_SOLVE_TYPE
+
+SOLVER_LIBRARY_TYPE
+SOLVER_MUMPS_LIBRARY
+
+!!!!!!!!!!!!!!!!!!!!!!!!!! THE FOLLOWING FEATURES/KEYWORDS SHOULD BE INCLUDED FOR THE DIRECT SOLVERS !!!!!!!!!!!!!!!!!!
+
+EQUATION_DIRECT_SOLVER_TYPE
+SOLVER_DIRECT_LU
+
+!!!!!!!!!!!!!!!!!!!!! THE FOLLOWING FEATURES/KEYWORDS SHOULD BE INCLUDED FOR THE ITERATIVE SOLVERS !!!!!!!!!!!!!!!!!!
+
+EQUATION_ITERATIVE_SOLVER_TYPE
+SOLVER_ITERATIVE_GMRES
+
+LINEAR_ITERATIVE_RELATIVE_TOLERANCE
+1E-6
+
+LINEAR_ITERATIVE_ABSOLUTE_TOLERANCE
+1E-12
+
+LINEAR_ITERATIVE_MAXIMUM_ITERATIVE
+100000
+
+LINEAR_ITERATIVE_PRECONDITIONER_TYPE
+SOLVER_ITERATIVE_JACOBI_PRECONDITIONER
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+NONLINEAR_SOLVER
+Dynamic_nonlinear
+
+NEWTON_SOLVER_MAXIMUM_ITERATIONS
+1000
+
+NEWTON_SOLVER_ABSOLUTE_TOLERANCE
+1e-6
+
+NEWTON_SOLVER_RELATIVE_TOLERANCE
+
+1e-6
+
+JACOBIAN_TYPE
+SOLVER_NEWTON_JACOBIAN_EQUATIONS_CALCULATED
+
+
+SOLVER_OUTPUT_TYPE_SET
+SOLVER_PROGRESS_OUTPUT
+
+END_SOLVER_SETTINGS
+
+!!!!!!!!!!!!!!!! Defining cartesian coordinates !!!!!!!!!!!!!
+
+START_COORDINATE_SYSTEM
+
+CARTESIAN_SYSTEM_ID
+FLUID
+
+TYPE
+COORDINATE_RECTANGULAR_CARTESIAN_TYPE
+
+DIMENSION
+COORDINATE_SYSTEM_2D
+
+END_COORDINATE_SYSTEM
+
+!!!!!!!!!!!!!!!! DEPENDENT FIELD  !!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+START_DEPENDENT_FIELD
+
+DEPENDENT_FIELD_ID
+FLUID
+
+
+NUM_OF_COMPONENTS
+3
+
+INITIAL_VALUE_OF_STATE_VARIABLE
+0.0,0.0
+
+INITIAL_VALUE_OF_PRESSURE_STATE_VARIABLE
+0.0
+
+DEPENDENT_FIELD_LABEL_SET
+DependentField
+
+END_DEPENDENT_FIELD
+
+
+
+
+!!!!!!!!!!!!!!!!!	GENERATED MESH DEFINITION !!!!!!!!!!!!!!!!!!!!!!!
+START_GENERATED_MESH
+
+GENERATED_MESH_ID
+FLUID
+
+
+GENERATED_MESH_TYPE
+GENERATED_REGULAR_MESH_TYPE
+
+GENERATED_MESH_GEOMETRIC_EXTENTS
+10,	2
+
+GENERATED_MESH_ORIGIN_SET
+0,0
+
+GENERATED_MESH_NUMBER_OF_ELEMENTS
+10,  10, 0
+
+
+END_GENERATED_MESH
+
+!!!!!!!!!!!!!!!!!!!!!!! MESH DEFINITION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+START_MESH
+
+MESH_ID
+FLUID
+
+END_MESH
+
+!!!!!!!!!!!!!!!!!!!! DEFINE PRESSURE BASIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+START_BASIS
+
+
+BASIS_ID
+FLUID
+
+
+NumberOfGaussXi
+3   ,   3
+
+
+BASIS_INTERPOLATION_TYPE
+LINEAR_LAGRANGE_INTERPOLATION
+
+
+END_BASIS
+
+!!!!!!!!!!!!!!!!!!!! DEFINE BASIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+START_BASIS
+
+BASIS_ID
+FLUID
+
+BASIS_INTERPOLATION_TYPE
+QUADRATIC_LAGRANGE_INTERPOLATION
+
+NumberOfGaussXi
+3,3
+
+END_BASIS
+
+
+
+!!!!!!!!!!!!!!!!!!! START BOUNDARY CONDITIONS !!!!!!!!!!!!!!!!
+
+START_BOUNDARY_CONDITIONS
+
+BOUNDARY_CONDITIONS_ID
+FLUID
+
+DIRICHLET  !!!! [ TYPE , LOCATION , COMPONENTS , VALUE ]
+SURFACE,	MESH_REGULAR_LEFT_SURFACE,	100,		QUADRATIC_2  , BOUNDARY_CONDITION_FIXED,SET
+SURFACE,	MESH_REGULAR_LEFT_SURFACE,	010,		0            , BOUNDARY_CONDITION_FIXED,SET
+SURFACE,	MESH_REGULAR_FRONT_SURFACE,	110,		0            , BOUNDARY_CONDITION_FIXED,SET
+SURFACE,	MESH_REGULAR_BACK_SURFACE,	110,		0            , BOUNDARY_CONDITION_FIXED,SET
+SURFACE,	MESH_REGULAR_RIGHT_SURFACE,	001,		0            , BOUNDARY_CONDITION_FIXED,SET
+
+
+
+END_BOUNDARY_CONDITIONS
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+START_OUTPUT
+
+OUTPUT_ID
+FLUID
+
+NODE_EXPORT
+NodeData_fluid_flow
+
+ELEMENT_EXPORT
+ElementData_fluid_flow
+
+
+END_OUTPUT
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!! DECOMPOSTION BLOCK !!!!!!!!!!!!!!!!!!!!!!!!!
+START_DECOMPOSITION
+
+DECOMPOSITION_ID
+FLUID
+
+CALCULATE_ELEMENT_FACES
+TRUE
+
+END_DECOMPOSITION
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!! FIELDS BLOCK initilize object of a data type CMFE_FIELDS !!!!!!!!!!!
+
+START_FIELDS
+
+FIELDS_ID
+FLUID
+
+END_FIELDS
+
+!!!!!!!!!!!!!!!!!!!!!!!!!! DEFINING Functions that PRESCRIBED BCs follow !!!!!!!!!!!!!!!!!!!!!
+
+START_FUNCTION
+
+FUNCTION_ID
+QUADRATIC_1
+
+FUNCTION_CONSTANTS                               !!! A,B,C,E,F,G,H,I,J in equation ....
+0,-4,0,0,0,0,0,8,0,0
+                                                 !!! f(x,y,z) = A*x^2 + B*y^2 + C*z^2 + D*x*y + E*x*z + F*y*z ...
+                                                 !!! ... + G*x + H*y + I*z + J
+                                                 !!! The given constants correpond to a parabolic profile of ...
+                                                 !! .. shape V = 4*V_max * (y/h)(1-(y/h)) , where V_max = 4 units and h is 2 units
+
+
+END_FUNCTION
+
+START_FUNCTION
+
+FUNCTION_ID
+QUADRATIC_2
+
+FUNCTION_CONSTANTS                               !!! A,B,C,E,F,G,H,I,J in equation ....
+0,0,0,0,0,0,0,0,0,4
+                                                 !!! f(x,y,z) = A*x^2 + B*y^2 + C*z^2 + D*x*y + E*x*z + F*y*z ...
+                                                 !!! ... + G*x + H*y + I*z + J
+                                                 !!! The given constants correpond to zero BC
+
+
+END_FUNCTION
+
+
+STOP_PARSING
+
