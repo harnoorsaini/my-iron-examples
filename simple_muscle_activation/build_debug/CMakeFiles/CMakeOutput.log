@@ -15,7 +15,7 @@ Configured with: ../src/configure -v --with-pkgversion='Ubuntu 5.4.0-6ubuntu1~16
 Thread model: posix
 gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.4) 
 COLLECT_GCC_OPTIONS='-v' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/5/f951 CMakeFortranCompilerId.F -ffixed-form -cpp=/tmp/ccAxI6U7.f90 -quiet -v -imultiarch x86_64-linux-gnu CMakeFortranCompilerId.F -quiet -dumpbase CMakeFortranCompilerId.F -mtune=generic -march=x86-64 -auxbase CMakeFortranCompilerId -version -fintrinsic-modules-path /usr/lib/gcc/x86_64-linux-gnu/5/finclude -o /tmp/ccJcO5L6.s
+ /usr/lib/gcc/x86_64-linux-gnu/5/f951 CMakeFortranCompilerId.F -ffixed-form -cpp=/tmp/ccyKkOVK.f90 -quiet -v -imultiarch x86_64-linux-gnu CMakeFortranCompilerId.F -quiet -dumpbase CMakeFortranCompilerId.F -mtune=generic -march=x86-64 -auxbase CMakeFortranCompilerId -version -fintrinsic-modules-path /usr/lib/gcc/x86_64-linux-gnu/5/finclude -o /tmp/ccuAfm0z.s
 GNU Fortran (Ubuntu 5.4.0-6ubuntu1~16.04.4) version 5.4.0 20160609 (x86_64-linux-gnu)
 	compiled by GNU C version 5.4.0 20160609, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3
 GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
@@ -34,7 +34,7 @@ GNU Fortran2008 (Ubuntu 5.4.0-6ubuntu1~16.04.4) version 5.4.0 20160609 (x86_64-l
 	compiled by GNU C version 5.4.0 20160609, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3
 GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
 COLLECT_GCC_OPTIONS='-v' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
- as -v --64 -o /tmp/cc8u9aG5.o /tmp/ccJcO5L6.s
+ as -v --64 -o /tmp/cc0Ui4cp.o /tmp/ccuAfm0z.s
 GNU assembler version 2.26.1 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.26.1
 Reading specs from /usr/lib/gcc/x86_64-linux-gnu/5/libgfortran.spec
 rename spec lib to liborig
@@ -42,7 +42,7 @@ COLLECT_GCC_OPTIONS='-v' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/
 COLLECT_GCC_OPTIONS='-v' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccOvZtB4.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lquadmath -plugin-opt=-pass-through=-lm -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. /tmp/cc8u9aG5.o -lgfortran -lm -lgcc_s -lgcc -lquadmath -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
+ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccmhEAqe.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lquadmath -plugin-opt=-pass-through=-lm -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. /tmp/cc0Ui4cp.o -lgfortran -lm -lgcc_s -lgcc -lquadmath -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
 
 
 Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "a.out"
@@ -52,29 +52,29 @@ The Fortran compiler identification is GNU, found in "/usr/local/opencmiss/examp
 Determining if the Fortran compiler works passed with the following output:
 Change Dir: /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_71c89/fast"
-/usr/bin/make -f CMakeFiles/cmTC_71c89.dir/build.make CMakeFiles/cmTC_71c89.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_5392c/fast"
+/usr/bin/make -f CMakeFiles/cmTC_5392c.dir/build.make CMakeFiles/cmTC_5392c.dir/build
 make[1]: Entering directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
-Building Fortran object CMakeFiles/cmTC_71c89.dir/testFortranCompiler.f.o
-/usr/bin/f95     -c /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp/testFortranCompiler.f -o CMakeFiles/cmTC_71c89.dir/testFortranCompiler.f.o
-Linking Fortran executable cmTC_71c89
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_71c89.dir/link.txt --verbose=1
-/usr/bin/f95       CMakeFiles/cmTC_71c89.dir/testFortranCompiler.f.o  -o cmTC_71c89  
+Building Fortran object CMakeFiles/cmTC_5392c.dir/testFortranCompiler.f.o
+/usr/bin/f95     -c /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp/testFortranCompiler.f -o CMakeFiles/cmTC_5392c.dir/testFortranCompiler.f.o
+Linking Fortran executable cmTC_5392c
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5392c.dir/link.txt --verbose=1
+/usr/bin/f95       CMakeFiles/cmTC_5392c.dir/testFortranCompiler.f.o  -o cmTC_5392c  
 make[1]: Leaving directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
 
 
 Detecting Fortran compiler ABI info compiled with the following output:
 Change Dir: /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_13b6e/fast"
-/usr/bin/make -f CMakeFiles/cmTC_13b6e.dir/build.make CMakeFiles/cmTC_13b6e.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_39bb4/fast"
+/usr/bin/make -f CMakeFiles/cmTC_39bb4.dir/build.make CMakeFiles/cmTC_39bb4.dir/build
 make[1]: Entering directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
-Building Fortran object CMakeFiles/cmTC_13b6e.dir/CMakeFortranCompilerABI.F.o
-/usr/bin/f95     -c /usr/share/cmake-3.5/Modules/CMakeFortranCompilerABI.F -o CMakeFiles/cmTC_13b6e.dir/CMakeFortranCompilerABI.F.o
-Linking Fortran executable cmTC_13b6e
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_13b6e.dir/link.txt --verbose=1
-/usr/bin/f95    -v   CMakeFiles/cmTC_13b6e.dir/CMakeFortranCompilerABI.F.o  -o cmTC_13b6e   
-Driving: /usr/bin/f95 -v CMakeFiles/cmTC_13b6e.dir/CMakeFortranCompilerABI.F.o -o cmTC_13b6e -l gfortran -l m -shared-libgcc
+Building Fortran object CMakeFiles/cmTC_39bb4.dir/CMakeFortranCompilerABI.F.o
+/usr/bin/f95     -c /usr/share/cmake-3.5/Modules/CMakeFortranCompilerABI.F -o CMakeFiles/cmTC_39bb4.dir/CMakeFortranCompilerABI.F.o
+Linking Fortran executable cmTC_39bb4
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_39bb4.dir/link.txt --verbose=1
+/usr/bin/f95    -v   CMakeFiles/cmTC_39bb4.dir/CMakeFortranCompilerABI.F.o  -o cmTC_39bb4   
+Driving: /usr/bin/f95 -v CMakeFiles/cmTC_39bb4.dir/CMakeFortranCompilerABI.F.o -o cmTC_39bb4 -l gfortran -l m -shared-libgcc
 Using built-in specs.
 COLLECT_GCC=/usr/bin/f95
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper
@@ -84,11 +84,11 @@ Thread model: posix
 gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.4) 
 Reading specs from /usr/lib/gcc/x86_64-linux-gnu/5/libgfortran.spec
 rename spec lib to liborig
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_13b6e' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_39bb4' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_13b6e' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/cc3DsOid.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lquadmath -plugin-opt=-pass-through=-lm -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_13b6e /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_13b6e.dir/CMakeFortranCompilerABI.F.o -lgfortran -lm -lgcc_s -lgcc -lquadmath -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_39bb4' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccUTe2m5.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lquadmath -plugin-opt=-pass-through=-lm -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_39bb4 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_39bb4.dir/CMakeFortranCompilerABI.F.o -lgfortran -lm -lgcc_s -lgcc -lquadmath -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
 make[1]: Leaving directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
 
 
@@ -96,15 +96,15 @@ Parsed Fortran implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_13b6e/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_13b6e.dir/build.make CMakeFiles/cmTC_13b6e.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_39bb4/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_39bb4.dir/build.make CMakeFiles/cmTC_39bb4.dir/build]
   ignore line: [make[1]: Entering directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp']
-  ignore line: [Building Fortran object CMakeFiles/cmTC_13b6e.dir/CMakeFortranCompilerABI.F.o]
-  ignore line: [/usr/bin/f95     -c /usr/share/cmake-3.5/Modules/CMakeFortranCompilerABI.F -o CMakeFiles/cmTC_13b6e.dir/CMakeFortranCompilerABI.F.o]
-  ignore line: [Linking Fortran executable cmTC_13b6e]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_13b6e.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/f95    -v   CMakeFiles/cmTC_13b6e.dir/CMakeFortranCompilerABI.F.o  -o cmTC_13b6e   ]
-  ignore line: [Driving: /usr/bin/f95 -v CMakeFiles/cmTC_13b6e.dir/CMakeFortranCompilerABI.F.o -o cmTC_13b6e -l gfortran -l m -shared-libgcc]
+  ignore line: [Building Fortran object CMakeFiles/cmTC_39bb4.dir/CMakeFortranCompilerABI.F.o]
+  ignore line: [/usr/bin/f95     -c /usr/share/cmake-3.5/Modules/CMakeFortranCompilerABI.F -o CMakeFiles/cmTC_39bb4.dir/CMakeFortranCompilerABI.F.o]
+  ignore line: [Linking Fortran executable cmTC_39bb4]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_39bb4.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/f95    -v   CMakeFiles/cmTC_39bb4.dir/CMakeFortranCompilerABI.F.o  -o cmTC_39bb4   ]
+  ignore line: [Driving: /usr/bin/f95 -v CMakeFiles/cmTC_39bb4.dir/CMakeFortranCompilerABI.F.o -o cmTC_39bb4 -l gfortran -l m -shared-libgcc]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/f95]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper]
@@ -114,16 +114,16 @@ Parsed Fortran implicit link information from above output:
   ignore line: [gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.4) ]
   ignore line: [Reading specs from /usr/lib/gcc/x86_64-linux-gnu/5/libgfortran.spec]
   ignore line: [rename spec lib to liborig]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_13b6e' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_39bb4' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_13b6e' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/cc3DsOid.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lquadmath -plugin-opt=-pass-through=-lm -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_13b6e /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_13b6e.dir/CMakeFortranCompilerABI.F.o -lgfortran -lm -lgcc_s -lgcc -lquadmath -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_39bb4' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccUTe2m5.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lquadmath -plugin-opt=-pass-through=-lm -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_39bb4 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_39bb4.dir/CMakeFortranCompilerABI.F.o -lgfortran -lm -lgcc_s -lgcc -lquadmath -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/cc3DsOid.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccUTe2m5.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lquadmath] ==> ignore
@@ -144,7 +144,7 @@ Parsed Fortran implicit link information from above output:
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_13b6e] ==> ignore
+    arg [cmTC_39bb4] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o] ==> ignore
@@ -156,7 +156,7 @@ Parsed Fortran implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/5/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/5/../../..]
-    arg [CMakeFiles/cmTC_13b6e.dir/CMakeFortranCompilerABI.F.o] ==> ignore
+    arg [CMakeFiles/cmTC_39bb4.dir/CMakeFortranCompilerABI.F.o] ==> ignore
     arg [-lgfortran] ==> lib [gfortran]
     arg [-lm] ==> lib [m]
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -192,14 +192,14 @@ Parsed Fortran implicit link information from above output:
 Determining if the Fortran compiler supports Fortran 90 passed with the following output:
 Change Dir: /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_429bc/fast"
-/usr/bin/make -f CMakeFiles/cmTC_429bc.dir/build.make CMakeFiles/cmTC_429bc.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_31f62/fast"
+/usr/bin/make -f CMakeFiles/cmTC_31f62.dir/build.make CMakeFiles/cmTC_31f62.dir/build
 make[1]: Entering directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
-Building Fortran object CMakeFiles/cmTC_429bc.dir/testFortranCompilerF90.f90.o
-/usr/bin/f95     -c /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp/testFortranCompilerF90.f90 -o CMakeFiles/cmTC_429bc.dir/testFortranCompilerF90.f90.o
-Linking Fortran executable cmTC_429bc
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_429bc.dir/link.txt --verbose=1
-/usr/bin/f95       CMakeFiles/cmTC_429bc.dir/testFortranCompilerF90.f90.o  -o cmTC_429bc  
+Building Fortran object CMakeFiles/cmTC_31f62.dir/testFortranCompilerF90.f90.o
+/usr/bin/f95     -c /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp/testFortranCompilerF90.f90 -o CMakeFiles/cmTC_31f62.dir/testFortranCompilerF90.f90.o
+Linking Fortran executable cmTC_31f62
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_31f62.dir/link.txt --verbose=1
+/usr/bin/f95       CMakeFiles/cmTC_31f62.dir/testFortranCompilerF90.f90.o  -o cmTC_31f62  
 make[1]: Leaving directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
 
 
@@ -219,28 +219,28 @@ The C compiler identification is GNU, found in "/usr/local/opencmiss/examples/si
 Determining if the C compiler works passed with the following output:
 Change Dir: /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_72192/fast"
-/usr/bin/make -f CMakeFiles/cmTC_72192.dir/build.make CMakeFiles/cmTC_72192.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_85d0d/fast"
+/usr/bin/make -f CMakeFiles/cmTC_85d0d.dir/build.make CMakeFiles/cmTC_85d0d.dir/build
 make[1]: Entering directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_72192.dir/testCCompiler.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_72192.dir/testCCompiler.c.o   -c /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp/testCCompiler.c
-Linking C executable cmTC_72192
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_72192.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_72192.dir/testCCompiler.c.o  -o cmTC_72192 -rdynamic 
+Building C object CMakeFiles/cmTC_85d0d.dir/testCCompiler.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_85d0d.dir/testCCompiler.c.o   -c /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_85d0d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_85d0d.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_85d0d.dir/testCCompiler.c.o  -o cmTC_85d0d -rdynamic 
 make[1]: Leaving directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
 
 
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_aaa33/fast"
-/usr/bin/make -f CMakeFiles/cmTC_aaa33.dir/build.make CMakeFiles/cmTC_aaa33.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_dfcc0/fast"
+/usr/bin/make -f CMakeFiles/cmTC_dfcc0.dir/build.make CMakeFiles/cmTC_dfcc0.dir/build
 make[1]: Entering directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_aaa33.dir/CMakeCCompilerABI.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_aaa33.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c
-Linking C executable cmTC_aaa33
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_aaa33.dir/link.txt --verbose=1
-/usr/bin/cc      -v CMakeFiles/cmTC_aaa33.dir/CMakeCCompilerABI.c.o  -o cmTC_aaa33 -rdynamic  
+Building C object CMakeFiles/cmTC_dfcc0.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_dfcc0.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_dfcc0
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_dfcc0.dir/link.txt --verbose=1
+/usr/bin/cc      -v CMakeFiles/cmTC_dfcc0.dir/CMakeCCompilerABI.c.o  -o cmTC_dfcc0 -rdynamic  
 Using built-in specs.
 COLLECT_GCC=/usr/bin/cc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper
@@ -250,8 +250,8 @@ Thread model: posix
 gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.4) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_aaa33' '-rdynamic' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/cczkOEIz.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_aaa33 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_aaa33.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_dfcc0' '-rdynamic' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccZwEloc.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_dfcc0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_dfcc0.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
 make[1]: Leaving directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
 
 
@@ -259,14 +259,14 @@ Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_aaa33/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_aaa33.dir/build.make CMakeFiles/cmTC_aaa33.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_dfcc0/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_dfcc0.dir/build.make CMakeFiles/cmTC_dfcc0.dir/build]
   ignore line: [make[1]: Entering directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp']
-  ignore line: [Building C object CMakeFiles/cmTC_aaa33.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/usr/bin/cc     -o CMakeFiles/cmTC_aaa33.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c]
-  ignore line: [Linking C executable cmTC_aaa33]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_aaa33.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/cc      -v CMakeFiles/cmTC_aaa33.dir/CMakeCCompilerABI.c.o  -o cmTC_aaa33 -rdynamic  ]
+  ignore line: [Building C object CMakeFiles/cmTC_dfcc0.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc     -o CMakeFiles/cmTC_dfcc0.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_dfcc0]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_dfcc0.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc      -v CMakeFiles/cmTC_dfcc0.dir/CMakeCCompilerABI.c.o  -o cmTC_dfcc0 -rdynamic  ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/cc]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper]
@@ -276,13 +276,13 @@ Parsed C implicit link information from above output:
   ignore line: [gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.4) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_aaa33' '-rdynamic' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/cczkOEIz.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_aaa33 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_aaa33.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_dfcc0' '-rdynamic' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccZwEloc.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_dfcc0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_dfcc0.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/cczkOEIz.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccZwEloc.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -300,7 +300,7 @@ Parsed C implicit link information from above output:
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_aaa33] ==> ignore
+    arg [cmTC_dfcc0] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o] ==> ignore
@@ -312,7 +312,7 @@ Parsed C implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/5/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/5/../../..]
-    arg [CMakeFiles/cmTC_aaa33.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_dfcc0.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [--as-needed] ==> ignore
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -346,14 +346,14 @@ Parsed C implicit link information from above output:
 Detecting C [-std=c11] compiler features compiled with the following output:
 Change Dir: /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_7c6bf/fast"
-/usr/bin/make -f CMakeFiles/cmTC_7c6bf.dir/build.make CMakeFiles/cmTC_7c6bf.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_8dbcb/fast"
+/usr/bin/make -f CMakeFiles/cmTC_8dbcb.dir/build.make CMakeFiles/cmTC_8dbcb.dir/build
 make[1]: Entering directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_7c6bf.dir/feature_tests.c.o
-/usr/bin/cc    -std=c11 -o CMakeFiles/cmTC_7c6bf.dir/feature_tests.c.o   -c /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/feature_tests.c
-Linking C executable cmTC_7c6bf
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7c6bf.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_7c6bf.dir/feature_tests.c.o  -o cmTC_7c6bf -rdynamic 
+Building C object CMakeFiles/cmTC_8dbcb.dir/feature_tests.c.o
+/usr/bin/cc    -std=c11 -o CMakeFiles/cmTC_8dbcb.dir/feature_tests.c.o   -c /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/feature_tests.c
+Linking C executable cmTC_8dbcb
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8dbcb.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_8dbcb.dir/feature_tests.c.o  -o cmTC_8dbcb -rdynamic 
 make[1]: Leaving directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
 
 
@@ -366,14 +366,14 @@ make[1]: Leaving directory '/usr/local/opencmiss/examples/simple_muscle_activati
 Detecting C [-std=c99] compiler features compiled with the following output:
 Change Dir: /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_a70a4/fast"
-/usr/bin/make -f CMakeFiles/cmTC_a70a4.dir/build.make CMakeFiles/cmTC_a70a4.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_115e4/fast"
+/usr/bin/make -f CMakeFiles/cmTC_115e4.dir/build.make CMakeFiles/cmTC_115e4.dir/build
 make[1]: Entering directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_a70a4.dir/feature_tests.c.o
-/usr/bin/cc    -std=c99 -o CMakeFiles/cmTC_a70a4.dir/feature_tests.c.o   -c /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/feature_tests.c
-Linking C executable cmTC_a70a4
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a70a4.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_a70a4.dir/feature_tests.c.o  -o cmTC_a70a4 -rdynamic 
+Building C object CMakeFiles/cmTC_115e4.dir/feature_tests.c.o
+/usr/bin/cc    -std=c99 -o CMakeFiles/cmTC_115e4.dir/feature_tests.c.o   -c /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/feature_tests.c
+Linking C executable cmTC_115e4
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_115e4.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_115e4.dir/feature_tests.c.o  -o cmTC_115e4 -rdynamic 
 make[1]: Leaving directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
 
 
@@ -386,14 +386,14 @@ make[1]: Leaving directory '/usr/local/opencmiss/examples/simple_muscle_activati
 Detecting C [-std=c90] compiler features compiled with the following output:
 Change Dir: /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_f3d48/fast"
-/usr/bin/make -f CMakeFiles/cmTC_f3d48.dir/build.make CMakeFiles/cmTC_f3d48.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_eaa28/fast"
+/usr/bin/make -f CMakeFiles/cmTC_eaa28.dir/build.make CMakeFiles/cmTC_eaa28.dir/build
 make[1]: Entering directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_f3d48.dir/feature_tests.c.o
-/usr/bin/cc    -std=c90 -o CMakeFiles/cmTC_f3d48.dir/feature_tests.c.o   -c /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/feature_tests.c
-Linking C executable cmTC_f3d48
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f3d48.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_f3d48.dir/feature_tests.c.o  -o cmTC_f3d48 -rdynamic 
+Building C object CMakeFiles/cmTC_eaa28.dir/feature_tests.c.o
+/usr/bin/cc    -std=c90 -o CMakeFiles/cmTC_eaa28.dir/feature_tests.c.o   -c /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/feature_tests.c
+Linking C executable cmTC_eaa28
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_eaa28.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_eaa28.dir/feature_tests.c.o  -o cmTC_eaa28 -rdynamic 
 make[1]: Leaving directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
 
 
@@ -404,42 +404,42 @@ make[1]: Leaving directory '/usr/local/opencmiss/examples/simple_muscle_activati
 Determining if the include file pthread.h exists passed with the following output:
 Change Dir: /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_b2693/fast"
-/usr/bin/make -f CMakeFiles/cmTC_b2693.dir/build.make CMakeFiles/cmTC_b2693.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_8fe9b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_8fe9b.dir/build.make CMakeFiles/cmTC_8fe9b.dir/build
 make[1]: Entering directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_b2693.dir/CheckIncludeFile.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_b2693.dir/CheckIncludeFile.c.o   -c /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
-Linking C executable cmTC_b2693
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b2693.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_b2693.dir/CheckIncludeFile.c.o  -o cmTC_b2693 -rdynamic 
+Building C object CMakeFiles/cmTC_8fe9b.dir/CheckIncludeFile.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_8fe9b.dir/CheckIncludeFile.c.o   -c /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_8fe9b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8fe9b.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_8fe9b.dir/CheckIncludeFile.c.o  -o cmTC_8fe9b -rdynamic 
 make[1]: Leaving directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
 
 
 Determining if the function pthread_create exists in the pthread passed with the following output:
 Change Dir: /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_d8cf8/fast"
-/usr/bin/make -f CMakeFiles/cmTC_d8cf8.dir/build.make CMakeFiles/cmTC_d8cf8.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_ba716/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ba716.dir/build.make CMakeFiles/cmTC_ba716.dir/build
 make[1]: Entering directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_d8cf8.dir/CheckFunctionExists.c.o
-/usr/bin/cc    -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_d8cf8.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
-Linking C executable cmTC_d8cf8
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d8cf8.dir/link.txt --verbose=1
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_d8cf8.dir/CheckFunctionExists.c.o  -o cmTC_d8cf8 -rdynamic -lpthread 
+Building C object CMakeFiles/cmTC_ba716.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_ba716.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_ba716
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ba716.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_ba716.dir/CheckFunctionExists.c.o  -o cmTC_ba716 -rdynamic -lpthread 
 make[1]: Leaving directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
 
 
 Performing Fortran SOURCE FILE Test MPI_Fortran_MODULE_COMPATIBLE succeeded with the following output:
 Change Dir: /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_27eb0/fast"
-/usr/bin/make -f CMakeFiles/cmTC_27eb0.dir/build.make CMakeFiles/cmTC_27eb0.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_6cd38/fast"
+/usr/bin/make -f CMakeFiles/cmTC_6cd38.dir/build.make CMakeFiles/cmTC_6cd38.dir/build
 make[1]: Entering directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
-Building Fortran object CMakeFiles/cmTC_27eb0.dir/src.F.o
-/usr/bin/f95   -I/usr/lib/openmpi/include -I/usr/lib/openmpi/lib  -DMPI_Fortran_MODULE_COMPATIBLE   -c /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp/src.F -o CMakeFiles/cmTC_27eb0.dir/src.F.o
-Linking Fortran executable cmTC_27eb0
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_27eb0.dir/link.txt --verbose=1
-/usr/bin/f95      -DMPI_Fortran_MODULE_COMPATIBLE CMakeFiles/cmTC_27eb0.dir/src.F.o  -o cmTC_27eb0  /usr/lib/openmpi/lib/libmpi_usempif08.so /usr/lib/openmpi/lib/libmpi_usempi_ignore_tkr.so /usr/lib/openmpi/lib/libmpi_mpifh.so /usr/lib/openmpi/lib/libmpi.so -Wl,-rpath,/usr/lib/openmpi/lib 
+Building Fortran object CMakeFiles/cmTC_6cd38.dir/src.F.o
+/usr/bin/f95   -I/usr/lib/openmpi/include -I/usr/lib/openmpi/lib  -DMPI_Fortran_MODULE_COMPATIBLE   -c /usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp/src.F -o CMakeFiles/cmTC_6cd38.dir/src.F.o
+Linking Fortran executable cmTC_6cd38
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6cd38.dir/link.txt --verbose=1
+/usr/bin/f95      -DMPI_Fortran_MODULE_COMPATIBLE CMakeFiles/cmTC_6cd38.dir/src.F.o  -o cmTC_6cd38  /usr/lib/openmpi/lib/libmpi_usempif08.so /usr/lib/openmpi/lib/libmpi_usempi_ignore_tkr.so /usr/lib/openmpi/lib/libmpi_mpifh.so /usr/lib/openmpi/lib/libmpi.so -Wl,-rpath,/usr/lib/openmpi/lib 
 make[1]: Leaving directory '/usr/local/opencmiss/examples/simple_muscle_activation/build_debug/CMakeFiles/CMakeTmp'
 
 Source file was:
