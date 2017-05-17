@@ -88,6 +88,7 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   REAL(CMISSRP), PARAMETER, DIMENSION(5) :: C= &
     & [3.56E-2_CMISSRP,3.86E-2_CMISSRP,0.3E-8_CMISSRP, &
     &  34.0_CMISSRP,0.0_CMISSRP ] 
+  REAL(CMISSRP), PARAMETER :: gamma=0.01_CMISSRP, beta=0.5_CMISSRP
     
   ! Test program parameters
   REAL(CMISSDP), PARAMETER :: PI=4.0_CMISSDP*DATAN(1.0_CMISSDP)
@@ -121,7 +122,7 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   INTEGER(CMISSIntg) :: NumberGlobalXElements,NumberGlobalYElements,NumberGlobalZElements
   INTEGER(CMISSIntg) :: EquationsSetIndex, TotalNumberOfNodes
   INTEGER(CMISSIntg) :: NumberOfComputationalNodes,NumberOfDomains,ComputationalNodeNumber
-  INTEGER(CMISSIntg) :: NodeNumber,NodeDomain,node_idx,elem_idx, gauss_idx, component_idx
+  INTEGER(CMISSIntg) :: NodeNumber,NodeDomain,node_idx,elem_idx, gauss_idx, component_idx, source_idx
   INTEGER(CMISSIntg),ALLOCATABLE :: BottomSurfaceNodes(:)
   INTEGER(CMISSIntg),ALLOCATABLE :: LeftSurfaceNodes(:)
   INTEGER(CMISSIntg),ALLOCATABLE :: RightSurfaceNodes(:)
@@ -165,11 +166,13 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
 
   ! Variables, Parameters, ...for specific simulation
   INTEGER(CMISSIntg), PARAMETER :: TIMESTEPS=50 ! Number of Timesteps
+  INTEGER(CMISSIntg), PARAMETER :: TotalNumberOfSources=2
   INTEGER(CMISSIntg) :: alpha_SU ! spatial update of alpha
   REAL(CMISSRP), DIMENSION(TIMESTEPS) :: alpha
-  REAL(CMISSRP) :: alpha_t, BCLOAD
-  REAL(CMISSRP) :: FibreFieldAngle(3)
-
+  REAL(CMISSRP) :: alpha_t, BCLOAD, alpha_spatial_temporal, alpha_spatial_wt_sum
+  REAL(CMISSRP) :: FibreFieldAngle(3), nodal_Coords(3)
+  REAL(CMISSRP), ALLOCATABLE :: dist_Node_actSource(:,:), alpha_spatial_wt(:,:)
+  REAL(CMISSRP), DIMENSION(3,TotalNumberOfSources) :: activation_Source ! NOTE: dimensions will be transposed by read command
 !
 ! Initialize parameters and set up mesh---------------------------------------------------------------------------------------START
 !
@@ -350,7 +353,8 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   ! 45° equivalent to pi/4, 90° equivalent to pi/2
   ! 1 degree = 0.0174533rad
 
-  FibreFieldAngle=(/10.0_CMISSRP*0.0174533_CMISSRP,0.0_CMISSRP,0.0_CMISSRP/)
+  ! FibreFieldAngle=(/10.0_CMISSRP*0.0174533_CMISSRP,0.0_CMISSRP,0.0_CMISSRP/)
+  FibreFieldAngle=(/0.0_CMISSRP,0.0_CMISSRP,0.0_CMISSRP/)
 
   DO node_idx=1,TotalNumberOfNodes
     CALL cmfe_Decomposition_NodeDomainGet(Decomposition,node_idx,1,NodeDomain,Err)
@@ -380,10 +384,10 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
     ! Required since value of activation is different at each point (see line 3303 in opencmiss_iron.f90)
     
     ! Element based interpolation
-    CALL cmfe_Field_ComponentInterpolationSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,5,CMFE_FIELD_ELEMENT_BASED_INTERPOLATION,Err)
+    !CALL cmfe_Field_ComponentInterpolationSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,5,CMFE_FIELD_ELEMENT_BASED_INTERPOLATION,Err)
     
     ! Node based interpolation
-    !CALL cmfe_Field_ComponentInterpolationSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,5,CMFE_FIELD_NODE_BASED_INTERPOLATION,Err)
+    CALL cmfe_Field_ComponentInterpolationSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,5,CMFE_FIELD_NODE_BASED_INTERPOLATION,Err)
     
     ! Gauss-point based interpolation
     !CALL cmfe_Field_ComponentInterpolationSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,5, & 
@@ -571,6 +575,62 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   CALL cmfe_Fields_Initialise(Fields,Err)
   CALL cmfe_Fields_Create(Region,Fields,Err)
 
+  ! Compute the distances from the activation (sEMG) sources and each SIM-FIELD point-----------------------------------------START
+  ! Where SIM-FIELD point = {NODE point, GAUSS point, ...} 
+
+  
+  ! 1) Define (read in) activation source(s): sEMG(j) = {EMGX_j, EMGY_j, EMGZ_j}, j = 1,...,EMG_TOT
+  ! >>> currently only consider a single activation source >>>
+    !activation_Source = (/0.5_CMISSRP,0.0_CMISSRP,0.5_CMISSRP/)
+
+  ! read in activation sources
+    OPEN(UNIT=12, FILE="activation_source_loc.txt", STATUS='OLD', ACTION='read')
+      READ(12,*) activation_Source
+    CLOSE(12)  
+    ! note that the read in is transposed, so in the text file: EMG(1,1), EMGY(1,2), EMG(1,3) ; EMG(2,1), EMG(2,2), EMG(2,3)
+    ! then the array will be a_S(1,1) = EMG(1,1), a_S(2,1) = EMG(1,2), a_S(3,1) = EMG(1,3) and so on 
+
+  ! AT TIME t=t_n, t = 0,..., t_TOT
+  ! >>> currently consider no time evolution (only based on inital configuration) >>>
+
+  !   2) Read in SIM-FIELD points - here node points - Get nodal coordinates of all node points 
+  !   NC_i(t_n) = {NCX_i(t_n), NCY_i(t_n), NCZ_i(t_n)}, i = 1,...,N_TOT 
+      nodal_Coords = (/0.0_CMISSRP,0.0_CMISSRP,0.0_CMISSRP/)
+      allocate(dist_Node_actSource(TotalNumberOfNodes, TotalNumberOfSources))
+      allocate(alpha_spatial_wt(TotalNumberOfNodes, TotalNumberOfSources))
+      DO node_idx=1,TotalNumberOfNodes
+        DO component_idx=1,3   
+          CALL cmfe_Field_ParameterSetGetNode(RegionUserNumber,FieldDependentUserNumber,CMFE_FIELD_U_VARIABLE_TYPE, &
+            & CMFE_FIELD_VALUES_SET_TYPE, 1,1,node_idx,component_idx,nodal_Coords(component_idx),err)
+        ENDDO
+
+        DO source_idx=1,TotalNumberOfSources
+  !       3) Compute the distance between each activation source and all nodal points
+  !         d_ij(t_n) = sqrt { [EMGX_j-NCX_i(t_n)]² + [EMGY_j-NCY_i(t_n)]² + [EMGZ_j-NCZ_i(t_n)]² }
+  !         d_ij is a 2D matrix with dimensions EMG_TOTxN_TOT for all time steps t_TOT  
+          dist_Node_actSource(node_idx, source_idx) = sqrt( (nodal_Coords(1)-activation_Source(1,source_idx))**2 & 
+            & + (nodal_Coords(2)-activation_Source(2,source_idx))**2 + (nodal_Coords(3)-activation_Source(3,source_idx))**2)
+  !       4) Evaluate the spatial activation weighting function for each activation source, i.e.
+  !         alpha_spatial_wt(NC_i(t_n)) = f(d_ij(t_n)) E [0,1], e.g.
+  !         f(d_ij(t_n)) = exp( d_ij(t_n) * ( ln(gamma)/beta ) ),
+  !           where beta is the maximum distance of influence and gamma is "some small value" 
+          alpha_spatial_wt(node_idx, source_idx) = exp( dist_Node_actSource(node_idx, source_idx) * log(gamma)/beta )
+  !         i) All the contributions need to be summed, i.e. the contribution of all activation sources to the current node
+  !           alpha_spatial_wt_sum(NC_i(t_n)) = sum (f(d_ij(t_n))) for a given node over all points
+  !         ii) The saturation activation is 1 
+        ENDDO
+
+  !   5) Multiply the spatial activation weighting function with the temporal activation, i.e.
+  !     alpha(NC_i(t_n)) = alpha_spatial_wt(NC_i(t_n)) * alpha(t_n)
+      ENDDO 
+  !   6) Now the spatial and temporal activation value can be passed into the muslce model for that given node
+  !     F_active= f(alpha(NC_i(t_n)), ...)
+
+
+
+  ! Spatial activation ---------------------------------------------------------------------------------------------------------END
+
+
   ! Read in activation alpha at time t; no check currently made that TIMESTEP = number of rows in text file
   OPEN (UNIT=3, FILE='activation_alpha.txt', STATUS='OLD', ACTION='read')
   DO i=1,TIMESTEPS
@@ -593,16 +653,16 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
       & 0.0_CMISSRP,Err)
 
     ! Set how alpha evolves over time (may choose to keep it constant, scale it, etc.)
-    alpha_t = 0.01_CMISSRP*alpha(i)
+    alpha_t = alpha(i)
 
     ! Below are different options to update alpha at each time step ----------------------------------------------------------START
       ! (1) Entire muscle (working)
-      ! (2) Element based (working)
-      ! (3) Node based
-      ! (4) Gauss-point based 
+      ! (2) Element based (working - need to check consistancy with (1) & (3)): currently only valid option for spatial variation
+      ! (3) Node based (working - need to check consistancy with (1) & (2))
+      ! (4) Gauss-point based (not yet tested)
 
       ! Set spatial update case - WARNING: cmfe_Field_ComponentInterpolationSet for C(5) needs to be correspondingly set!  
-      alpha_SU = 1
+      alpha_SU = 3
 
       SELECT CASE (alpha_SU)
         CASE(1) ! Entire muscle (working)
@@ -617,10 +677,24 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
           END DO        
         
         CASE(3) ! Node based
-          ! loop over all nodes
+          ! loop over all nodes 
           DO node_idx=1,TotalNumberOfNodes 
+            alpha_spatial_wt_sum = 0.0_CMISSRP
+            ! Apply spatial weighting according to actiation source
+            DO source_idx=1,TotalNumberOfSources
+              alpha_spatial_wt_sum =  alpha_spatial_wt_sum + alpha_spatial_wt(node_idx,source_idx)
+            ENDDO
+            ! Saturation of activation at alpha = 1
+            IF (alpha_spatial_wt_sum .GE. 1.0_CMISSRP) THEN
+              alpha_spatial_wt_sum = 1.0_CMISSRP
+            ENDIF
+            
+            alpha_spatial_temporal = alpha_t * alpha_spatial_wt_sum
+            
+            
+            
             CALL cmfe_Field_ParameterSetUpdateNode(MaterialField,& 
-              & CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,1, 1, node_idx,5,alpha_t,Err)      
+              & CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,1, 1, node_idx,5,alpha_spatial_temporal,Err)      
           END DO       
 
         CASE(4) !Gauss-point based
