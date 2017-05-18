@@ -7,7 +7,7 @@
 ! - Muscle activation - variation over space
 ! - Generated (structed) mesh
 !
-
+!
 ! AUTHOR: HARNOOR SAINI
 ! MARCH 2017
 !
@@ -88,7 +88,7 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   REAL(CMISSRP), PARAMETER, DIMENSION(5) :: C= &
     & [3.56E-2_CMISSRP,3.86E-2_CMISSRP,0.3E-8_CMISSRP, &
     &  34.0_CMISSRP,0.0_CMISSRP ] 
-  REAL(CMISSRP), PARAMETER :: gamma=0.01_CMISSRP, beta=0.5_CMISSRP
+  REAL(CMISSRP), PARAMETER :: gamma=0.01_CMISSRP, beta=0.85_CMISSRP
     
   ! Test program parameters
   REAL(CMISSDP), PARAMETER :: PI=4.0_CMISSDP*DATAN(1.0_CMISSDP)
@@ -165,7 +165,7 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   INTEGER(CMISSIntg) :: Err
 
   ! Variables, Parameters, ...for specific simulation
-  INTEGER(CMISSIntg), PARAMETER :: TIMESTEPS=50 ! Number of Timesteps
+  INTEGER(CMISSIntg), PARAMETER :: TIMESTEPS=1 ! Number of Timesteps
   INTEGER(CMISSIntg), PARAMETER :: TotalNumberOfSources=2
   INTEGER(CMISSIntg) :: alpha_SU ! spatial update of alpha
   REAL(CMISSRP), DIMENSION(TIMESTEPS) :: alpha
@@ -198,6 +198,9 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   ! Get the number of computational nodes and this computational node number
   CALL cmfe_ComputationalNumberOfNodesGet(NumberOfComputationalNodes,Err)
   CALL cmfe_ComputationalNodeNumberGet(ComputationalNodeNumber,Err)
+  
+  WRITE(*,*) "Comp-Node Number", "-", "Total Number of Comp-Nodes"  
+  WRITE(*,*) ComputationalNodeNumber, NumberOfComputationalNodes
 
   NumberGlobalXElements=2
   NumberGlobalYElements=2
@@ -599,34 +602,36 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
       allocate(dist_Node_actSource(TotalNumberOfNodes, TotalNumberOfSources))
       allocate(alpha_spatial_wt(TotalNumberOfNodes, TotalNumberOfSources))
       DO node_idx=1,TotalNumberOfNodes
-        DO component_idx=1,3   
-          CALL cmfe_Field_ParameterSetGetNode(RegionUserNumber,FieldDependentUserNumber,CMFE_FIELD_U_VARIABLE_TYPE, &
-            & CMFE_FIELD_VALUES_SET_TYPE, 1,1,node_idx,component_idx,nodal_Coords(component_idx),err)
-        ENDDO
-
-        DO source_idx=1,TotalNumberOfSources
-  !       3) Compute the distance between each activation source and all nodal points
-  !         d_ij(t_n) = sqrt { [EMGX_j-NCX_i(t_n)]² + [EMGY_j-NCY_i(t_n)]² + [EMGZ_j-NCZ_i(t_n)]² }
-  !         d_ij is a 2D matrix with dimensions EMG_TOTxN_TOT for all time steps t_TOT  
-          dist_Node_actSource(node_idx, source_idx) = sqrt( (nodal_Coords(1)-activation_Source(1,source_idx))**2 & 
-            & + (nodal_Coords(2)-activation_Source(2,source_idx))**2 + (nodal_Coords(3)-activation_Source(3,source_idx))**2)
-  !       4) Evaluate the spatial activation weighting function for each activation source, i.e.
-  !         alpha_spatial_wt(NC_i(t_n)) = f(d_ij(t_n)) E [0,1], e.g.
-  !         f(d_ij(t_n)) = exp( d_ij(t_n) * ( ln(gamma)/beta ) ),
-  !           where beta is the maximum distance of influence and gamma is "some small value" 
-          alpha_spatial_wt(node_idx, source_idx) = exp( dist_Node_actSource(node_idx, source_idx) * log(gamma)/beta )
-  !         i) All the contributions need to be summed, i.e. the contribution of all activation sources to the current node
-  !           alpha_spatial_wt_sum(NC_i(t_n)) = sum (f(d_ij(t_n))) for a given node over all points
-  !         ii) The saturation activation is 1 
-        ENDDO
-
+        CALL cmfe_Decomposition_NodeDomainGet(Decomposition,node_idx,1,NodeDomain,Err)
+        IF(NodeDomain==ComputationalNodeNumber) THEN      
+          DO component_idx=1,3   
+            CALL cmfe_Field_ParameterSetGetNode(RegionUserNumber,FieldDependentUserNumber,CMFE_FIELD_U_VARIABLE_TYPE, &
+              & CMFE_FIELD_VALUES_SET_TYPE, 1,1,node_idx,component_idx,nodal_Coords(component_idx),err)
+          ENDDO
+        
+          DO source_idx=1,TotalNumberOfSources
+  !         3) Compute the distance between each activation source and all nodal points
+  !           d_ij(t_n) = sqrt { [EMGX_j-NCX_i(t_n)]² + [EMGY_j-NCY_i(t_n)]² + [EMGZ_j-NCZ_i(t_n)]² }
+  !           d_ij is a 2D matrix with dimensions EMG_TOTxN_TOT for all time steps t_TOT  
+            dist_Node_actSource(node_idx, source_idx) = sqrt( (nodal_Coords(1)-activation_Source(1,source_idx))**2 & 
+              & + (nodal_Coords(2)-activation_Source(2,source_idx))**2 + (nodal_Coords(3)-activation_Source(3,source_idx))**2)
+  !         4) Evaluate the spatial activation weighting function for each activation source, i.e.
+  !           alpha_spatial_wt(NC_i(t_n)) = f(d_ij(t_n)) E [0,1], e.g.
+  !           f(d_ij(t_n)) = exp( d_ij(t_n) * ( ln(gamma)/beta ) ),
+  !             where beta is the maximum distance of influence and gamma is "some small value" 
+            alpha_spatial_wt(node_idx, source_idx) = exp( dist_Node_actSource(node_idx, source_idx) * log(gamma)/beta )
+  !           i) All the contributions need to be summed, i.e. the contribution of all activation sources to the current node
+  !             alpha_spatial_wt_sum(NC_i(t_n)) = sum (f(d_ij(t_n))) for a given node over all points
+  !           ii) The saturation activation is 1 
+          ENDDO
+        ENDIF
   !   5) Multiply the spatial activation weighting function with the temporal activation, i.e.
   !     alpha(NC_i(t_n)) = alpha_spatial_wt(NC_i(t_n)) * alpha(t_n)
       ENDDO 
   !   6) Now the spatial and temporal activation value can be passed into the muslce model for that given node
   !     F_active= f(alpha(NC_i(t_n)), ...)
 
-
+  WRITE(*,*) "Completed computing spatial activations..."
 
   ! Spatial activation ---------------------------------------------------------------------------------------------------------END
 
@@ -653,7 +658,7 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
       & 0.0_CMISSRP,Err)
 
     ! Set how alpha evolves over time (may choose to keep it constant, scale it, etc.)
-    alpha_t = alpha(i)
+    alpha_t = 0.5_CMISSRP*alpha(i)
 
     ! Below are different options to update alpha at each time step ----------------------------------------------------------START
       ! (1) Entire muscle (working)
@@ -677,26 +682,27 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
           END DO        
         
         CASE(3) ! Node based
+          WRITE(*,*) "Applying temporal activation, STEP: ", i
           ! loop over all nodes 
           DO node_idx=1,TotalNumberOfNodes 
-            alpha_spatial_wt_sum = 0.0_CMISSRP
-            ! Apply spatial weighting according to actiation source
-            DO source_idx=1,TotalNumberOfSources
-              alpha_spatial_wt_sum =  alpha_spatial_wt_sum + alpha_spatial_wt(node_idx,source_idx)
-            ENDDO
-            ! Saturation of activation at alpha = 1
-            IF (alpha_spatial_wt_sum .GE. 1.0_CMISSRP) THEN
-              alpha_spatial_wt_sum = 1.0_CMISSRP
-            ENDIF
-            
-            alpha_spatial_temporal = alpha_t * alpha_spatial_wt_sum
-            
-            
-            
-            CALL cmfe_Field_ParameterSetUpdateNode(MaterialField,& 
-              & CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,1, 1, node_idx,5,alpha_spatial_temporal,Err)      
-          END DO       
+            CALL cmfe_Decomposition_NodeDomainGet(Decomposition,node_idx,1,NodeDomain,Err)
+            IF(NodeDomain==ComputationalNodeNumber) THEN                
+              alpha_spatial_wt_sum = 0.0_CMISSRP
+              ! Apply spatial weighting according to actiation source
+              DO source_idx=1,TotalNumberOfSources
+                alpha_spatial_wt_sum =  alpha_spatial_wt_sum + alpha_spatial_wt(node_idx,source_idx)
+              ENDDO
+              ! Saturation of activation at alpha = 1
+              IF (alpha_spatial_wt_sum .GE. 1.0_CMISSRP) THEN
+                alpha_spatial_wt_sum = 1.0_CMISSRP
+              ENDIF
+              
+              alpha_spatial_temporal = alpha_t * alpha_spatial_wt_sum
 
+              CALL cmfe_Field_ParameterSetUpdateNode(MaterialField,& 
+                & CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,1, 1, node_idx,5,alpha_spatial_temporal,Err)      
+            ENDIF       
+          ENDDO
         CASE(4) !Gauss-point based
           ! loop over all elements
           DO elem_idx=1,NumberOfElementsFE

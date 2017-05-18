@@ -1,10 +1,10 @@
 #Read in the sequence of nodal positions.
-for $i (1..50)
+for $i (1..10)
   {
-	 $filename = sprintf("ActiveStrain_TransIso_%d.part0.exnode", $i);
+	 		$filename = sprintf("ActiveStrain_TransIso_%d.part0.exnode", $i);
 	 
-	 print "Reading $filename time $i\n";
-	 gfx read node "$filename" time $i;
+	 		print "Reading $filename time $i\n";
+	 		gfx read node "$filename" time $i;
   }
 
 #Read in the element description

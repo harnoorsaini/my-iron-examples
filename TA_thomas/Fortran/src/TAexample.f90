@@ -480,7 +480,7 @@ PROGRAM EntireTAEXAMPLE
   REAL(CMISSRP), PARAMETER :: STIM_STOP=0.1_CMISSRP
 !  REAL(CMISSRP), PARAMETER :: PERIODD=5.00_CMISSRP
   REAL(CMISSRP), PARAMETER :: PERIODD=1.00_CMISSRP
-  REAL(CMISSRP), PARAMETER :: TIME_STOP=1000.0_CMISSRP !10.0_CMISSRP !30.0_CMISSRP
+  REAL(CMISSRP), PARAMETER :: TIME_STOP=2.0_CMISSRP !1000.0_CMISSRP !10.0_CMISSRP !30.0_CMISSRP
   
   REAL(CMISSRP), PARAMETER :: ODE_TIME_STEP=0.0001_CMISSRP
   REAL(CMISSRP), PARAMETER :: PDE_TIME_STEP=0.0005_CMISSRP
@@ -704,7 +704,7 @@ PROGRAM EntireTAEXAMPLE
   NumberOfElementsM=NumberOfElementsMmuscle+NumberOfElementsMskin
 
 !##################################################################################################################################
-  pathname="/usr/local/opencmiss/examples/TA_thomas/Fortran/src/"
+  pathname="/usr/local/opencmiss/examples/TA_thomas/build_debug/Fortran/"
 !!!  fast_twitch=.true.
 !!!  if(fast_twitch) then
 !!!    filename=trim(pathname)//"fast_2014_03_25_no_Fl_no_Fv.xml" !FAST currently valid (new) CellML file
@@ -728,7 +728,7 @@ PROGRAM EntireTAEXAMPLE
     STIM_VALUE2=1200.0_CMISSRP
   ELSE
     !phenomenological half-sarcomere model
-    filename=trim(pathname)//"Aliev_Panfilov_Razumova_2016_08_22.cellml"
+    filename=trim(pathname)//"input/Aliev_Panfilov_Razumova_2016_08_22.cellml"
     STIM_VALUE=90.0_CMISSRP
     STIM_VALUE2=90.0_CMISSRP
   END IF
