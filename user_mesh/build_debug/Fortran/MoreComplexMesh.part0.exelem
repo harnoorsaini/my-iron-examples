@@ -1,0 +1,82 @@
+ Group name: Region 2           
+ Shape.  Dimension=2
+ #Scale factor sets= 2
+ l.Lagrange*l.Lagrange, #Scale factors=4
+ c.Hermite*c.Hermite, #Scale factors=16
+ #Nodes=           4
+ #Fields=1
+ 1) Coordinate, coordinate, rectangular cartesian, #Components=2
+   x.   l.Lagrange*l.Lagrange, no modify, standard node based.
+     #Nodes= 4
+     1.  #Values=1
+      Value indices:     1
+      Scale factor indices:    1
+     2.  #Values=1
+      Value indices:     1
+      Scale factor indices:    2
+     3.  #Values=1
+      Value indices:     1
+      Scale factor indices:    3
+     4.  #Values=1
+      Value indices:     1
+      Scale factor indices:    4
+   y.   c.Hermite*c.Hermite, no modify, standard node based.
+     #Nodes= 4
+     1.  #Values=4
+      Value indices:     1   2   3   4
+      Scale factor indices:   20  21  22  23
+     2.  #Values=4
+      Value indices:     1   2   3   4
+      Scale factor indices:   24  25  26  27
+     3.  #Values=4
+      Value indices:     1   2   3   4
+      Scale factor indices:   28  29  30  31
+     4.  #Values=4
+      Value indices:     1   2   3   4
+      Scale factor indices:   32  33  34  35
+ Element:            1 0 0
+   Nodes:
+           1           2           4           5
+   Scale factors:
+     1.0000000000000000E+00   1.0000000000000000E+00   1.0000000000000000E+00   1.0000000000000000E+00
+     1.0000000000000000E+00   1.0000000000000000E+00   9.9999999999999978E-01   9.9999999999999978E-01   1.0000000000000000E+00   9.9999999999999989E-01   9.9999999999999978E-01   9.9999999999999967E-01   1.0000000000000000E+00   1.0000000000000000E+00   9.9999999999999978E-01   9.9999999999999978E-01   1.0000000000000000E+00   9.9999999999999989E-01   9.9999999999999978E-01   9.9999999999999967E-01
+ #Scale factor sets= 2
+ c.Hermite*c.Hermite, #Scale factors=16
+ l.Lagrange*l.Lagrange, #Scale factors=4
+ #Nodes=           4
+ #Fields=1
+ 1) Coordinate, coordinate, rectangular cartesian, #Components=2
+   x.   c.Hermite*c.Hermite, no modify, standard node based.
+     #Nodes= 4
+     1.  #Values=4
+      Value indices:     1   2   3   4
+      Scale factor indices:    1   2   3   4
+     2.  #Values=4
+      Value indices:     1   2   3   4
+      Scale factor indices:    5   6   7   8
+     3.  #Values=4
+      Value indices:     1   2   3   4
+      Scale factor indices:    9  10  11  12
+     4.  #Values=4
+      Value indices:     1   2   3   4
+      Scale factor indices:   13  14  15  16
+   y.   l.Lagrange*l.Lagrange, no modify, standard node based.
+     #Nodes= 4
+     1.  #Values=1
+      Value indices:     1
+      Scale factor indices:   20
+     2.  #Values=1
+      Value indices:     1
+      Scale factor indices:   21
+     3.  #Values=1
+      Value indices:     1
+      Scale factor indices:   22
+     4.  #Values=1
+      Value indices:     1
+      Scale factor indices:   23
+ Element:            2 0 0
+   Nodes:
+           2           3           5           6
+   Scale factors:
+     1.0000000000000000E+00   9.9999999999999989E-01   9.9999999999999978E-01   9.9999999999999967E-01   1.0000000000000000E+00   9.9999999999999978E-01   1.0000000000000000E+00   9.9999999999999978E-01   1.0000000000000000E+00   9.9999999999999989E-01   9.9999999999999978E-01   9.9999999999999967E-01   1.0000000000000000E+00   9.9999999999999978E-01   1.0000000000000000E+00   9.9999999999999978E-01
+     1.0000000000000000E+00   1.0000000000000000E+00   1.0000000000000000E+00   1.0000000000000000E+00

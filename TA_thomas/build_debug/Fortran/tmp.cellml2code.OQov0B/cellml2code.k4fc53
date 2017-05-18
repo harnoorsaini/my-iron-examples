@@ -1,0 +1,160 @@
+#include <math.h>
+#include <stdio.h>
+extern double fabs(double x);
+extern double acos(double x);
+extern double acosh(double x);
+extern double atan(double x);
+extern double atanh(double x);
+extern double asin(double x);
+extern double asinh(double x);
+extern double acos(double x);
+extern double acosh(double x);
+extern double asin(double x);
+extern double asinh(double x);
+extern double atan(double x);
+extern double atanh(double x);
+extern double ceil(double x);
+extern double cos(double x);
+extern double cosh(double x);
+extern double tan(double x);
+extern double tanh(double x);
+extern double sin(double x);
+extern double sinh(double x);
+extern double exp(double x);
+extern double floor(double x);
+extern double pow(double x, double y);
+extern double factorial(double x);
+extern double log(double x);
+extern double arbitrary_log(double x, double base);
+extern double gcd_pair(double a, double b);
+extern double lcm_pair(double a, double b);
+extern double gcd_multi(unsigned int size, ...);
+extern double lcm_multi(unsigned int size, ...);
+extern double multi_min(unsigned int size, ...);
+extern double multi_max(unsigned int size, ...);
+extern void NR_MINIMISE(double(*func)(double VOI, double *C, double *R, double *S, double *A),double VOI, double *C, double *R, double *S, double *A, double *V);
+
+
+void OC_CellML_RHS_routine(double VOI, double* OC_STATE, double* OC_RATE, double* OC_WANTED, double* OC_KNOWN)
+{
+
+double DUMMY_ASSIGNMENT;
+double CONSTANTS[27], ALGEBRAIC[12];
+
+/* Constant V_m */
+DUMMY_ASSIGNMENT /*OC_STATE[0]*/ = 0;
+/* Constant r */
+DUMMY_ASSIGNMENT /*OC_STATE[1]*/ = 20;
+/* Constant I_HH */
+DUMMY_ASSIGNMENT /*OC_KNOWN[0]*/ = 0.0;
+/* Constant k */
+CONSTANTS[0] = 128;
+/* Constant a */
+CONSTANTS[1] = 0.15;
+/* Constant e_0 */
+CONSTANTS[2] = 0.002;
+/* Constant m_1 */
+CONSTANTS[3] = 0.2;
+/* Constant m_2 */
+CONSTANTS[4] = 0.3;
+/* Constant D */
+DUMMY_ASSIGNMENT /*OC_STATE[2]*/ = 0.0001;
+/* Constant A_1 */
+DUMMY_ASSIGNMENT /*OC_STATE[3]*/ = 0.0001;
+/* Constant A_2 */
+DUMMY_ASSIGNMENT /*OC_STATE[4]*/ = 0.0001;
+/* Constant x_1 */
+DUMMY_ASSIGNMENT /*OC_STATE[5]*/ = 1e-16;
+/* Constant x_2 */
+DUMMY_ASSIGNMENT /*OC_STATE[6]*/ = 8e-3;
+/* Constant x_0 */
+CONSTANTS[5] = 8e-3;
+/* Constant R_T */
+CONSTANTS[6] = 1;
+/* Constant l_hs */
+DUMMY_ASSIGNMENT /*OC_KNOWN[1]*/ = 1;
+/* Constant velo */
+DUMMY_ASSIGNMENT /*OC_KNOWN[2]*/ = 0;
+/* Constant velo_max */
+CONSTANTS[7] = 1e-4;
+/* Constant k_0_on */
+CONSTANTS[8] = 0;
+/* Constant k_0_off */
+CONSTANTS[9] = 100e-3;
+/* Constant k_Ca_on */
+CONSTANTS[10] = 120e-3;
+/* Constant k_Ca_off */
+CONSTANTS[11] = 50e-3;
+/* Constant g_0 */
+CONSTANTS[12] = 4e-3;
+/* Constant f_0 */
+CONSTANTS[13] = 50e-3;
+/* Constant h_0 */
+CONSTANTS[14] = 8e-3;
+/* Constant f_prime0 */
+CONSTANTS[15] = 400e-3;
+/* Constant h_prime0 */
+CONSTANTS[16] = 6e-3;
+/* Constant g_prime0 */
+CONSTANTS[17] = 3.5400e-13;
+/* Constant Ca_50 */
+CONSTANTS[18] = 26;
+/* Constant nu */
+CONSTANTS[19] = 3.2;
+/* Constant E_ATP */
+CONSTANTS[20] = 9.1362e-20;
+/* Constant kappa */
+CONSTANTS[21] = 1.38e-23;
+/* Constant T */
+CONSTANTS[22] = 310;
+/* Constant k_on_rel */
+CONSTANTS[23] = 0.925;
+/* Constant k_off_rel */
+CONSTANTS[24] = 0.143;
+/* Constant alpha */
+CONSTANTS[25] = 1.35;
+/* Constant Element with no id */
+CONSTANTS[26] =  OC_KNOWN[2]*CONSTANTS[7];
+/* Element with no id */
+OC_RATE[0] = ( - CONSTANTS[0]*OC_STATE[0]*(OC_STATE[0] - CONSTANTS[1])*(OC_STATE[0] - 1.00000) -  OC_STATE[0]*OC_STATE[1])+OC_KNOWN[0];
+/* Element with no id */
+OC_RATE[1] =  (CONSTANTS[2]+( CONSTANTS[3]*OC_STATE[1])/(CONSTANTS[4]+OC_STATE[0]))*(- OC_STATE[1] -  CONSTANTS[0]*OC_STATE[0]*((OC_STATE[0] - CONSTANTS[1]) - 1.00000));
+/* Element with no id */
+ALGEBRAIC[0] = (OC_STATE[6]>CONSTANTS[5] ? 1.00000 : OC_STATE[6]<CONSTANTS[5] ? 8.00000 : 0.00000);
+/* Element with no id */
+ALGEBRAIC[7] =  CONSTANTS[25]*CONSTANTS[14]*exp( ALGEBRAIC[0]*pow(OC_STATE[5], 2.00000));
+/* Element with no id */
+OC_RATE[6] =  (( - ALGEBRAIC[7]*OC_STATE[3])/OC_STATE[4])*(OC_STATE[6] - CONSTANTS[5])+CONSTANTS[26];
+/* Element with no id */
+ALGEBRAIC[1] = OC_STATE[3]/CONSTANTS[6];
+/* Element with no id */
+ALGEBRAIC[2] = OC_STATE[4]/CONSTANTS[6];
+/* Element with no id */
+ALGEBRAIC[5] =  CONSTANTS[25]*CONSTANTS[13]*pow(1.00000+ ALGEBRAIC[1]*(exp( (OC_STATE[5]/CONSTANTS[5])*(CONSTANTS[19] - 1.00000)) - 1.00000)+ ALGEBRAIC[2]*(exp( (OC_STATE[6]/CONSTANTS[5])*(CONSTANTS[19] - 1.00000)) - 1.00000), 2.00000);
+/* Element with no id */
+ALGEBRAIC[6] =  CONSTANTS[25]*CONSTANTS[15]*exp( ALGEBRAIC[0]*pow(OC_STATE[5], 2.00000));
+/* Element with no id */
+ALGEBRAIC[8] =  CONSTANTS[25]*CONSTANTS[16]*exp( ALGEBRAIC[0]*pow(OC_STATE[6], 2.00000) -  ALGEBRAIC[0]*pow(OC_STATE[5], 2.00000));
+/* Element with no id */
+OC_RATE[3] = ( ALGEBRAIC[5]*OC_STATE[2]+ ALGEBRAIC[8]*OC_STATE[4]) -  (ALGEBRAIC[6]+ALGEBRAIC[7])*OC_STATE[3];
+/* Element with no id */
+OC_RATE[5] = ( (( - ALGEBRAIC[5]*OC_STATE[2])/OC_STATE[3])*OC_STATE[5] -  (( ALGEBRAIC[8]*OC_STATE[4])/OC_STATE[3])*OC_STATE[5])+CONSTANTS[26];
+/* Element with no id */
+ALGEBRAIC[9] =  CONSTANTS[25]*CONSTANTS[12]*exp( ALGEBRAIC[0]*pow(OC_STATE[6] - CONSTANTS[5], 2.00000));
+/* Element with no id */
+ALGEBRAIC[10] =  (( ALGEBRAIC[5]*ALGEBRAIC[7]*ALGEBRAIC[9])/( ALGEBRAIC[6]*ALGEBRAIC[8]))*exp(- CONSTANTS[20]/( CONSTANTS[21]*CONSTANTS[22]));
+/* Element with no id */
+OC_RATE[4] = ( ALGEBRAIC[7]*OC_STATE[3] -  (ALGEBRAIC[8]+ALGEBRAIC[9])*OC_STATE[4])+ ALGEBRAIC[10]*OC_STATE[2];
+/* Element with no id */
+ALGEBRAIC[11] = ((CONSTANTS[6] - OC_STATE[3]) - OC_STATE[4]) - OC_STATE[2];
+/* Element with no id */
+ALGEBRAIC[3] =  CONSTANTS[23]*(CONSTANTS[8]+( (CONSTANTS[10] - CONSTANTS[8])*OC_STATE[1])/(OC_STATE[1]+CONSTANTS[18]));
+/* Element with no id */
+ALGEBRAIC[4] =  CONSTANTS[24]*(CONSTANTS[9]+( (CONSTANTS[11] - CONSTANTS[9])*OC_STATE[1])/(OC_STATE[1]+CONSTANTS[18]));
+/* Element with no id */
+OC_RATE[2] = ( ALGEBRAIC[3]*ALGEBRAIC[11]+ ALGEBRAIC[6]*OC_STATE[3]+ ALGEBRAIC[9]*OC_STATE[4]) -  (ALGEBRAIC[4]+ALGEBRAIC[5]+ALGEBRAIC[10])*OC_STATE[2];
+
+
+}//OC_CellML_RHS_routine()
+
+;
