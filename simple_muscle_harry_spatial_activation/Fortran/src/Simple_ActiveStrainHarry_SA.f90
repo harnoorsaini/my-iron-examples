@@ -78,17 +78,32 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
 ! Parameter Definition--------------------------------------------------------------------------------------------------------START
 !
 
-  ! Material model is as described in Roehrle et. al. (2016)
-  ! Material parameters taken from Sprenger (2016) for the Biceps Brachii
-  !
-  ! Material-Parameters C = [ c1, c2, c3, c4, alpha ]
-  ! c1, c2 - Mooney-Rivlin hyperelastic parameters
-  ! c3, c4 - Passive response parameters
-  ! alpha - activation parameter
-  REAL(CMISSRP), PARAMETER, DIMENSION(5) :: C= &
+  ! Equations set for transversely isotropic (fibre-reinforced), active contractible bodies consitisting of two materials
+  ! The local portion between them is defined by the parameter trans
+  ! Material 1 is active contractible, material 2 is only passive
+  !   W=W_iso+W_aniso+W_act
+  !     where the three parts are adopted from above (iso Mooney-Rivlin, aniso Markert, active part)
+  !   Markert, B., W. Ehlers, and N. Karajan. 
+  !   A general polyconvex strain-energy function for fiber-reinforced materials. 
+  !   Proceedings in Applied Mathematics and Mechanics 5.1 (2005): 245-246.)
+  ! 
+  ! C(1)=c1_m1...Mooney Rivlin parameter material 1
+  ! C(2)=c2_m1...Mooney Rivlin parameter material 1
+  ! C(3)=c4_m1...polynomial coefficient (Markert model) material 1
+  ! C(4)=c5_m1...power coefficient (Markert model) material 1
+  ! C(5)=c1_m2...Mooney Rivlin parameter material 2
+  ! C(6)=c2_m2...Mooney Rivlin parameter material 2
+  ! C(7)=c4_m2...polynomial coefficient (Markert model) material 2
+  ! C(8)=c5_m2...power coefficient (Markert model) material 2
+  ! C(9)=alpha...activation parameter [0,1]
+  ! C(10)=trans...transition parameter [0,1] for the portion between the two materials
+  ! C(11)=P_max...maximum isometric stress
+
+  REAL(CMISSRP), PARAMETER, DIMENSION(11) :: C= &
     & [3.56E-2_CMISSRP,3.86E-2_CMISSRP,0.3E-8_CMISSRP, &
-    &  34.0_CMISSRP,0.0_CMISSRP ] 
-  REAL(CMISSRP), PARAMETER :: gamma=0.01_CMISSRP, beta=0.85_CMISSRP
+    &  34.0_CMISSRP,3.56E-2_CMISSRP, 3.86E-2_CMISSRP, 0.3E-8_CMISSRP, &
+    &  0.3E-8_CMISSRP, 0.0_CMISSRP, 1.0_CMISSRP, 5.0_CMISSRP] 
+  REAL(CMISSRP), PARAMETER :: gamma=0.01_CMISSRP, beta=1.00_CMISSRP
     
   ! Test program parameters
   REAL(CMISSDP), PARAMETER :: PI=4.0_CMISSDP*DATAN(1.0_CMISSDP)
@@ -165,7 +180,7 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   INTEGER(CMISSIntg) :: Err
 
   ! Variables, Parameters, ...for specific simulation
-  INTEGER(CMISSIntg), PARAMETER :: TIMESTEPS=1 ! Number of Timesteps
+  INTEGER(CMISSIntg), PARAMETER :: TIMESTEPS=50 ! Number of Timesteps
   INTEGER(CMISSIntg), PARAMETER :: TotalNumberOfSources=2
   INTEGER(CMISSIntg) :: alpha_SU ! spatial update of alpha
   REAL(CMISSRP), DIMENSION(TIMESTEPS) :: alpha
@@ -378,7 +393,7 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   CALL cmfe_Field_GeometricFieldSet(MaterialField,GeometricField,Err)
   CALL cmfe_Field_NumberOfVariablesSet(MaterialField,1,Err)
   CALL cmfe_Field_VariableLabelSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,"Material",Err)
-  CALL cmfe_Field_NumberOfComponentsSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,5,Err)
+  CALL cmfe_Field_NumberOfComponentsSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,11,Err)
   CALL cmfe_Field_ComponentInterpolationSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,1,CMFE_FIELD_CONSTANT_INTERPOLATION,Err)
   CALL cmfe_Field_ComponentInterpolationSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,2,CMFE_FIELD_CONSTANT_INTERPOLATION,Err)
   CALL cmfe_Field_ComponentInterpolationSet(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,3,CMFE_FIELD_CONSTANT_INTERPOLATION,Err)
@@ -428,7 +443,7 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   ! Create the equations_set
   CALL cmfe_Field_Initialise(EquationsSetField,Err)
   CALL cmfe_EquationsSet_CreateStart(EquationSetUserNumber,Region,FibreField,[CMFE_EQUATIONS_SET_ELASTICITY_CLASS, &
-    & CMFE_EQUATIONS_SET_FINITE_ELASTICITY_TYPE,CMFE_EQUATIONS_SET_TRANSVERSE_ISOTROPIC_ACTIVE_SUBTYPE], &
+    & CMFE_EQUATIONS_SET_FINITE_ELASTICITY_TYPE,CMFE_EQUATIONS_SET_TRANS_ISOTROPIC_ACTIVE_TRANSITION_SUBTYPE], &
     & EquationsSetFieldUserNumber,EquationsSetField,EquationsSet,Err)
   CALL cmfe_EquationsSet_CreateFinish(EquationsSet,Err)
 
@@ -446,6 +461,12 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,3,C(3),Err)
   CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,4,C(4),Err)
   CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,5,C(5),Err)
+  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,6,C(6),Err)
+  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,7,C(7),Err)
+  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,8,C(8),Err)
+  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,9,C(9),Err)
+  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,10,C(10),Err)
+  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,11,C(11),Err)
 
   ! Create the equations set equations
   CALL cmfe_Equations_Initialise(Equations,Err)
@@ -658,7 +679,7 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
       & 0.0_CMISSRP,Err)
 
     ! Set how alpha evolves over time (may choose to keep it constant, scale it, etc.)
-    alpha_t = 0.5_CMISSRP*alpha(i)
+    alpha_t = 1.0_CMISSRP*alpha(i)
 
     ! Below are different options to update alpha at each time step ----------------------------------------------------------START
       ! (1) Entire muscle (working)
@@ -671,14 +692,14 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
 
       SELECT CASE (alpha_SU)
         CASE(1) ! Entire muscle (working)
-          CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,5, &
+          CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,9, &
             & alpha_t,Err)
 
         CASE(2) ! Element based (working)
           ! loop over all elements
           DO elem_idx=1,NumberOfElementsFE
             CALL cmfe_Field_ParameterSetUpdateElement(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,&
-              & elem_idx,5,alpha_t,Err)
+              & elem_idx,9,alpha_t,Err)
           END DO        
         
         CASE(3) ! Node based
@@ -700,7 +721,7 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
               alpha_spatial_temporal = alpha_t * alpha_spatial_wt_sum
 
               CALL cmfe_Field_ParameterSetUpdateNode(MaterialField,& 
-                & CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,1, 1, node_idx,5,alpha_spatial_temporal,Err)      
+                & CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,1, 1, node_idx,9,alpha_spatial_temporal,Err)      
             ENDIF       
           ENDDO
         CASE(4) !Gauss-point based
@@ -709,7 +730,7 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
             ! loop over all gauss points
             DO gauss_idx = 1, NumberOfGaussXi
               CALL cmfe_Field_ParameterSetUpdateGaussPoint(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,&
-                & gauss_idx, elem_idx, 5, alpha_t, Err)
+                & gauss_idx, elem_idx, 9, alpha_t, Err)
             END DO 
           END DO       
 

@@ -15,17 +15,17 @@
 ########################
 
 //The directory containing a CMake configuration file for BLAS.
-BLAS_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/release/cmake
+BLAS_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/debug/cmake
 
 //The directory containing a CMake configuration file for BZip2.
-BZip2_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/release/cmake
+BZip2_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/debug/cmake
 
 //The directory containing a CMake configuration file for CELLML.
-CELLML_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/release/cmake
+CELLML_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/debug/cmake
 
 //Choose the type of build, options are: None(CMAKE_CXX_FLAGS or
 // CMAKE_C_FLAGS used) Debug Release RelWithDebInfo MinSizeRel.
-CMAKE_BUILD_TYPE:STRING=RELEASE
+CMAKE_BUILD_TYPE:STRING=DEBUG
 
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
@@ -148,25 +148,25 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
 //The directory containing a CMake configuration file for FIELDML-API.
-FIELDML-API_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/release/cmake
+FIELDML-API_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/debug/cmake
 
 //The directory containing a CMake configuration file for HYPRE.
-HYPRE_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/release/cmake
+HYPRE_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/debug/cmake
 
 //The directory containing a CMake configuration file for IRON.
-IRON_DIR:PATH=/usr/local/opencmiss/iron/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/release/cmake
+IRON_DIR:PATH=/usr/local/opencmiss/iron/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/debug/cmake
 
 //The directory containing a CMake configuration file for LAPACK.
-LAPACK_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/release/cmake
+LAPACK_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/debug/cmake
 
 //The directory containing a CMake configuration file for LIBCELLML.
-LIBCELLML_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/release/cmake
+LIBCELLML_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/debug/cmake
 
 //The directory containing a CMake configuration file for LibXml2.
-LibXml2_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/release/cmake
+LibXml2_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/debug/cmake
 
 //The directory containing a CMake configuration file for METIS.
-METIS_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/release/cmake
+METIS_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/debug/cmake
 
 //Executable for running MPI programs.
 MPIEXEC:FILEPATH=/usr/bin/mpiexec
@@ -228,10 +228,10 @@ MPI_Fortran_VERIFIED:BOOL=TRUE
 MPI_LIBRARY:FILEPATH=/usr/lib/openmpi/lib/libmpi.so
 
 //The directory containing a CMake configuration file for MUMPS.
-MUMPS_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/release/cmake
+MUMPS_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/debug/cmake
 
 //No help, variable specified on the command line.
-OPENCMISS_BUILD_TYPE:UNINITIALIZED=RELEASE
+OPENCMISS_BUILD_TYPE:UNINITIALIZED=DEBUG
 
 //Path to a library.
 OPENSSL_CRYPTO_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libcrypto.so
@@ -252,37 +252,37 @@ OpenCMISS-Example_SOURCE_DIR:STATIC=/usr/local/opencmiss/examples/simple_muscle_
 OpenCMISS_DIR:PATH=/usr/local/opencmiss/iron/install
 
 //The directory containing a CMake configuration file for PARMETIS.
-PARMETIS_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/release/cmake
+PARMETIS_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/debug/cmake
 
 //The directory containing a CMake configuration file for PASTIX.
-PASTIX_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/release/cmake
+PASTIX_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/debug/cmake
 
 //The directory containing a CMake configuration file for PETSC.
-PETSC_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/release/cmake
+PETSC_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/debug/cmake
 
 //pkg-config executable
 PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
 
 //The directory containing a CMake configuration file for PTSCOTCH.
-PTSCOTCH_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/release/cmake
+PTSCOTCH_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/debug/cmake
 
 //The directory containing a CMake configuration file for SCALAPACK.
-SCALAPACK_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/release/cmake
+SCALAPACK_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/debug/cmake
 
 //The directory containing a CMake configuration file for SUITESPARSE.
-SUITESPARSE_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/release/cmake
+SUITESPARSE_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/debug/cmake
 
 //The directory containing a CMake configuration file for SUNDIALS.
-SUNDIALS_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/release/cmake
+SUNDIALS_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/debug/cmake
 
 //The directory containing a CMake configuration file for SUPERLU.
-SUPERLU_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/release/cmake
+SUPERLU_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/debug/cmake
 
 //The directory containing a CMake configuration file for SUPERLU_DIST.
-SUPERLU_DIST_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/release/cmake
+SUPERLU_DIST_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/openmpi_release/debug/cmake
 
 //The directory containing a CMake configuration file for ZLIB.
-ZLIB_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/release/cmake
+ZLIB_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/debug/cmake
 
 
 ########################
