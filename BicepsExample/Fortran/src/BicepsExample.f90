@@ -176,7 +176,7 @@ PROGRAM RIGHTBICEPSACTIVECONTRACTIONEXAMPLE
   !C(10)=trans...transition parameter [0,1] for the portion between the two materials
   !C(11)=P_max...maximum isometric stress
 
-  MAT_FE= 0.01_CMISSRP * &
+  MAT_FE= 1.0_CMISSRP * &
     & [0.0356_CMISSRP,0.00386_CMISSRP, &
     & 0.0000000357_CMISSRP,42.6_CMISSRP, &
     & 2.31_CMISSRP,0.00000115_CMISSRP, &
