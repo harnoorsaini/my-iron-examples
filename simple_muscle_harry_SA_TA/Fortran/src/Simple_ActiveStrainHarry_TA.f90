@@ -14,15 +14,16 @@
 ! TO DO
 ! [ ] Check unit system - must be consistant: geometr & material parameters
 ! [x] Change material model to EQUATIONS_SET_TRANS_ISOTROPIC_ACTIVE_TRANSITION_SUBTYPE (try in simple model first)
-! [ ] What about the pressure basis and incompressiblity - it's turned "off" currently...(compare in simple model)
-! [ ] How are the fibre directions actually defined - it does not seem wrt global coordinates rather in the xi1 direction or 
-!     something
+! [ ] What about the pressure basis and incompressiblity...
+!     --> Simple example does not converge when UserPressureBasis is off...
+! [x] How are the fibre directions actually defined - it does not seem wrt global coordinates rather in the xi1 direction or 
+!     something - leave the transforamtion to 0 for plausible fibre orientation (based on the specific node numbering)
 ! [ ] Where do the constants in the material models come from, e.g. fibre length bounds for active part @ line 4541 in finite_
 !     elasticity_routines.f90?
-! [ ] Set up time loop as in TA example...
+! [x] Set up time loop as in TA example... (been there, done that - no advantage really)
+! [ ] Why are the muslce forces flipping sings (flip!)
+! [ ] What about the initial pressure value? - ask Andreas
 ! +++++++++++++++++++++++++++++++++++++++++++++++++++
-!
-
 !
 !
 ! ------------------------ ORIGINAL FILE HEADER START ----------------------------
@@ -114,21 +115,30 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   ! 
   ! UNITS
   ! mm, N, MPa, tonne
-  !
-  !
+  ! source for Rivlin-skin: The uniaxial stress versus strain response of pig skin
+  !                          and silicone rubber at low and high strain rates: C1: 0.3MPa, C2: 0MPa
+  ! source for Rivlin-muscle: SPrenger PhD
+  ! source for Markert-skin: see above paper - collagen Di
+  ! source for Markert-muscle: see above paper - collagen VLi
+  !REAL(CMISSRP), PARAMETER, DIMENSION(11) :: C= &
+    !& [0.356_CMISSRP,0.386_CMISSRP,0.3411E-3_CMISSRP, &
+    !&  44.0_CMISSRP,0.3_CMISSRP, 0.01_CMISSRP, 0.00646E-3_CMISSRP, &
+    !&  30.0_CMISSRP, 0.0_CMISSRP, 1.0_CMISSRP, 0.5_CMISSRP] 
+
+  ! "original" parameters
   REAL(CMISSRP), PARAMETER, DIMENSION(11) :: C= &
     & [3.56E-2_CMISSRP,3.86E-2_CMISSRP,0.3E-8_CMISSRP, &
     &  34.0_CMISSRP,3.56E-2_CMISSRP, 3.86E-2_CMISSRP, 0.3E-8_CMISSRP, &
-    &  34.0_CMISSRP, 0.0_CMISSRP, 1.0_CMISSRP, 0.5_CMISSRP] 
-    
-  ! Test program parameters
-  REAL(CMISSDP), PARAMETER :: PI=4.0_CMISSDP*DATAN(1.0_CMISSDP)
-  REAL(CMISSRP), PARAMETER :: PERIOD=1.00_CMISSRP
+    &  34.0_CMISSRP, 0.0_CMISSRP, 1.0_CMISSRP, 0.5_CMISSRP]   
 
-  !REAL(CMISSRP), PARAMETER :: HEIGHT=1.0_CMISSRP
-  !REAL(CMISSRP), PARAMETER :: WIDTH=1.0_CMISSRP
-  !REAL(CMISSRP), PARAMETER :: LENGTH=1.0_CMISSRP
+  ! Test program parameters
+  REAL(CMISSRP), PARAMETER :: MPc = 1.0_CMISSRP ! Material Parameter constant multiplied; ONLY PARAMETERS 1-8
+  REAL(CMISSDP), PARAMETER :: PI=4.0_CMISSRP*DATAN(1.0_CMISSRP)
+  REAL(CMISSRP), PARAMETER :: PERIOD=1.0_CMISSRP
+  REAL(CMISSRP), PARAMETER :: TIME_STOP =10000.0_CMISSRP
+  REAL(CMISSRP), PARAMETER :: alpha_inc = 1.0E-5_CMISSRP
   
+
   !INTEGER(CMISSIntg), PARAMETER :: InterpolationType=CMFE_BASIS_LINEAR_LAGRANGE_INTERPOLATION
   INTEGER(CMISSIntg), PARAMETER :: InterpolationType=CMFE_BASIS_QUADRATIC_LAGRANGE_INTERPOLATION
   INTEGER(CMISSIntg), PARAMETER :: PressureInterpolationType=CMFE_BASIS_LINEAR_LAGRANGE_INTERPOLATION
@@ -202,9 +212,9 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
   INTEGER(CMISSIntg) :: Err
 
   ! Variables, Parameters, ...for specific simulation
-  INTEGER(CMISSIntg), PARAMETER :: TIMESTEPS=11 ! Number of Timesteps
+  !INTEGER(CMISSIntg), PARAMETER :: TIMESTEPS=11 ! Number of Timesteps
   INTEGER(CMISSIntg) :: alpha_SU, j, k, stat ! spatial update of alpha
-  REAL(CMISSRP), DIMENSION(TIMESTEPS) :: alpha
+  !REAL(CMISSRP), DIMENSION(TIMESTEPS) :: alpha
   REAL(CMISSRP) :: alpha_t, BCLOAD, VALUE, time
   REAL(CMISSRP) :: FibreFieldAngle(3)
 !
@@ -335,7 +345,6 @@ INTEGER(CMISSIntg), DIMENSION(NumberOfElementsFE,27), PARAMETER :: AllElementNod
   INTEGER(CMISSIntg), PARAMETER :: LinearBasisUserNumber=2
   INTEGER(CMISSIntg), PARAMETER :: NumberOfXiCoordinates=NumberOfSpatialCoordinates
   INTEGER(CMISSIntg), PARAMETER :: NumberOfGaussPoints=3
-  REAL(CMISSRP), PARAMETER :: ELASTICITY_TIME_STEP=0.10000000001_CMISSRP
   INTEGER(CMISSIntg), PARAMETER :: NumberOfMeshDimensionsFE=3
   real(CMISSRP) :: posX,posY,posZ
 !
@@ -624,7 +633,7 @@ INTEGER(CMISSIntg), DIMENSION(NumberOfElementsFE,27), PARAMETER :: AllElementNod
   ! 45° equivalent to pi/4, 90° equivalent to pi/2
   ! 1 degree = 0.0174533rad
 
-  FibreFieldAngle=(/0.0_CMISSRP,PI/2.0_CMISSRP,0.0_CMISSRP/)
+  FibreFieldAngle=(/0.0_CMISSRP,0.0_CMISSRP,0.0_CMISSRP/)
 
   DO node_idx=1,TotalNumberOfNodes
     CALL cmfe_Decomposition_NodeDomainGet(Decomposition,node_idx,1,NodeDomain,Err)
@@ -697,10 +706,12 @@ INTEGER(CMISSIntg), DIMENSION(NumberOfElementsFE,27), PARAMETER :: AllElementNod
   CALL cmfe_Field_ComponentMeshComponentSet(DependentField,CMFE_FIELD_U_VARIABLE_TYPE,1,QuadraticMeshComponentNumber,Err)
   CALL cmfe_Field_ComponentMeshComponentSet(DependentField,CMFE_FIELD_U_VARIABLE_TYPE,2,QuadraticMeshComponentNumber,Err)
   CALL cmfe_Field_ComponentMeshComponentSet(DependentField,CMFE_FIELD_U_VARIABLE_TYPE,3,QuadraticMeshComponentNumber,Err)
+  !CALL cmfe_Field_ComponentMeshComponentSet(DependentField,CMFE_FIELD_U_VARIABLE_TYPE,4,QuadraticMeshComponentNumber,Err)
   CALL cmfe_Field_ComponentMeshComponentSet(DependentField,CMFE_FIELD_U_VARIABLE_TYPE,4,LinearMeshComponentNumber,Err)
   CALL cmfe_Field_ComponentMeshComponentSet(DependentField,CMFE_FIELD_DELUDELN_VARIABLE_TYPE,1,QuadraticMeshComponentNumber,Err)
   CALL cmfe_Field_ComponentMeshComponentSet(DependentField,CMFE_FIELD_DELUDELN_VARIABLE_TYPE,2,QuadraticMeshComponentNumber,Err)
   CALL cmfe_Field_ComponentMeshComponentSet(DependentField,CMFE_FIELD_DELUDELN_VARIABLE_TYPE,3,QuadraticMeshComponentNumber,Err)
+  !CALL cmfe_Field_ComponentMeshComponentSet(DependentField,CMFE_FIELD_DELUDELN_VARIABLE_TYPE,4,QuadraticMeshComponentNumber,Err)
   CALL cmfe_Field_ComponentMeshComponentSet(DependentField,CMFE_FIELD_DELUDELN_VARIABLE_TYPE,4,LinearMeshComponentNumber,Err)  
   !                                                 >>>> END 
   CALL cmfe_Field_VariableLabelSet(DependentField,CMFE_FIELD_U_VARIABLE_TYPE,"Dependent",Err)
@@ -736,14 +747,14 @@ INTEGER(CMISSIntg), DIMENSION(NumberOfElementsFE,27), PARAMETER :: AllElementNod
   CALL cmfe_EquationsSet_MaterialsCreateFinish(EquationsSet,Err)
 
   ! Set Material-Parameters [mu(1) mu(2) mu(3) alpha(1) alpha(2) alpha(3) mu_0 XB]
-  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,1,C(1),Err)
-  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,2,C(2),Err)
-  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,3,C(3),Err)
-  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,4,C(4),Err)
-  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,5,C(5),Err)
-  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,6,C(6),Err)
-  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,7,C(7),Err)
-  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,8,C(8),Err)
+  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,1,MPc*C(1),Err)
+  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,2,MPc*C(2),Err)
+  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,3,MPc*C(3),Err)
+  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,4,MPc*C(4),Err)
+  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,5,MPc*C(5),Err)
+  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,6,MPc*C(6),Err)
+  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,7,MPc*C(7),Err)
+  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,8,MPc*C(8),Err)
   CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,9,C(9),Err)
   CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,10,C(10),Err)
   CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,11,C(11),Err)
@@ -795,20 +806,22 @@ INTEGER(CMISSIntg), DIMENSION(NumberOfElementsFE,27), PARAMETER :: AllElementNod
   !
   ! From TA Example                                >>>> START 
   ! set the main control loop (time loop type)
-  CALL cmfe_ControlLoop_Initialise(ControlLoopMain,Err)
-  CALL cmfe_Problem_ControlLoopGet(Problem,CMFE_CONTROL_LOOP_NODE,ControlLoopMain,Err)
-  CALL cmfe_ControlLoop_LabelSet(ControlLoopMain,'MAIN_TIME_LOOP',Err)
-  CALL cmfe_ControlLoop_TypeSet(ControlLoopMain,CMFE_PROBLEM_CONTROL_TIME_LOOP_TYPE,Err)
+  !CALL cmfe_ControlLoop_Initialise(ControlLoopMain,Err)
+  !CALL cmfe_Problem_ControlLoopGet(Problem,CMFE_CONTROL_LOOP_NODE,ControlLoopMain,Err)
+  !CALL cmfe_ControlLoop_LabelSet(ControlLoopMain,'MAIN_TIME_LOOP',Err)
+  !CALL cmfe_ControlLoop_TypeSet(ControlLoopMain,CMFE_PROBLEM_CONTROL_TIME_LOOP_TYPE,Err)
   !Loop in time for STIM_STOP with the Stimulus applied.
-  CALL cmfe_ControlLoop_TimesSet(ControlLoopMain,0.0_CMISSRP,ELASTICITY_TIME_STEP,ELASTICITY_TIME_STEP,Err)
-  CALL cmfe_ControlLoop_TimeOutputSet(ControlLoopMain,2,Err)
-  CALL cmfe_ControlLoop_OutputTypeSet(ControlLoopMain,CMFE_CONTROL_LOOP_TIMING_OUTPUT,Err)  
+  !CALL cmfe_ControlLoop_TimesSet(ControlLoopMain,0.0_CMISSRP,ELASTICITY_TIME_STEP,ELASTICITY_TIME_STEP,Err)
+  !CALL cmfe_ControlLoop_TimeOutputSet(ControlLoopMain,2,Err)
+  !CALL cmfe_ControlLoop_OutputTypeSet(ControlLoopMain,CMFE_CONTROL_LOOP_TIMING_OUTPUT,Err)  
   !                                                >>>> END
-  !CALL cmfe_ControlLoop_In itialise(ControlLoop,Err)
+  ! control loop simple type <
+  !CALL cmfe_ControlLoop_Initialise(ControlLoop,Err)
   !CALL cmfe_Problem_ControlLoopGet(Problem,CMFE_CONTROL_LOOP_NODE,ControlLoop,Err)
   !CALL cmfe_ControlLoop_TypeSet(ControlLoop,CMFE_PROBLEM_CONTROL_LOAD_INCREMENT_LOOP_TYPE,Err)
   !CALL cmfe_ControlLoop_MaximumIterationsSet(ControlLoop,10,Err)
   !CALL cmfe_ControlLoop_LoadOutputSet(ControlLoop,1,Err)
+  ! >
   CALL cmfe_Problem_ControlLoopCreateFinish(Problem,Err)
 
   !Create the problem solvers
@@ -818,7 +831,7 @@ INTEGER(CMISSIntg), DIMENSION(NumberOfElementsFE,27), PARAMETER :: AllElementNod
   CALL cmfe_Problem_SolverGet(Problem,CMFE_CONTROL_LOOP_NODE,1,Solver,Err)
   CALL cmfe_Solver_OutputTypeSet(Solver,CMFE_SOLVER_PROGRESS_OUTPUT,Err)
   CALL cmfe_Solver_NewtonJacobianCalculationTypeSet(Solver,CMFE_SOLVER_NEWTON_JACOBIAN_EQUATIONS_CALCULATED,Err)
-  CALL cmfe_Solver_NewtonSolutionToleranceSet(Solver,2.E-6_CMISSRP,Err)
+  CALL cmfe_Solver_NewtonSolutionToleranceSet(Solver,1.E-6_CMISSRP,Err)
   CALL cmfe_Solver_NewtonAbsoluteToleranceSet(Solver,1.E-6_CMISSRP,Err)
   CALL cmfe_Solver_NewtonMaximumIterationsSet(Solver,100,Err)
   CALL cmfe_Solver_NewtonLinearSolverGet(Solver,LinearSolver,Err)
@@ -957,40 +970,45 @@ write(*,*) "applied BCs"
 !
 ! Solving the problem---------------------------------------------------------------------------------------------------------START
 !
-
+  !Output solution
   CALL cmfe_Fields_Initialise(Fields,Err)
-  CALL cmfe_Fields_Create(Region,Fields,Err)
+  CALL cmfe_Fields_Create(Region,Fields,Err)  
+  CALL cmfe_Fields_NodesExport(Fields,"ActiveStrain_TransIso","FORTRAN",Err)
+  CALL cmfe_Fields_ElementsExport(Fields,"ActiveStrain_TransIso","FORTRAN",Err)
+  CALL cmfe_Fields_Finalise(Fields,Err)
 
   ! Read in activation alpha at time t; no check currently made that TIMESTEP = number of rows in text file
-  OPEN (UNIT=3, FILE='activation_alpha.txt', STATUS='OLD', ACTION='read')
-  DO i=1,TIMESTEPS
-    READ(3,*) alpha(i)
-  ENDDO
-  CLOSE(3)
+  !OPEN (UNIT=3, FILE='activation_alpha.txt', STATUS='OLD', ACTION='read')
+  !DO i=1,TIMESTEPS
+    !READ(3,*) alpha(i)
+  !ENDDO
+  !CLOSE(3)
   
   ! Initialise alpha(i=t) 
-  CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,9, &
-    & 0.0_CMISSRP,Err)
+  !CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,9, &
+  !  & 0.0_CMISSRP,Err)
+ 
+  ! Output solution
+  CALL cmfe_Fields_Initialise(Fields,Err)
+  CALL cmfe_Fields_Create(Region,Fields,Err)  
 
   ! Solve the mechanical problem fpr this time step - DUMMY SOLVE - required to initialise all variables 
   ! (ideally should not be required)
-  CALL cmfe_Problem_Solve(Problem,Err)
+  !CALL cmfe_Problem_Solve(Problem,Err)
 
   ! Mechanical BC increment (if concentric contraction is used)
   BCLOAD = 0.0_CMISSRP
   time = 0.0_CMISSRP
+  alpha_t = 0.0_CMISSRP
+  i = 0
   ! Loop over Time -----------------------------------------------------------------------------------------------------------START
-  DO i=1,TIMESTEPS
+  DO WHILE(time <= TIME_STOP)
     WRITE(*,*) "-------------------------------------------------------"
-    WRITE(*,*) "TIMESTEP: ", i
+    WRITE(*,*) "Percentage completed: ", 100.0_CMISSRP*time/TIME_STOP
     
     ! Solve the mechanical problem for this time step - DUMMY SOLVE - required to initialise all variables 
     ! (ideally should not be required)
     !CALL cmfe_Problem_Solve(Problem,Err)
-
-    ! Set how alpha evolves over time (may choose to keep it constant, scale it, etc.)
-    !alpha_t = exp(alpha(i))-1.0_CMISSRP
-    alpha_t = 0.001_CMISSRP*alpha(i)
 
     ! Below are different options to update alpha at each time step ----------------------------------------------------------START
       ! (1) Entire muscle (working)
@@ -998,7 +1016,7 @@ write(*,*) "applied BCs"
       ! (3) Node based
       ! (4) Gauss-point based 
 
-      ! Set spatial update case - WARNING: cmfe_Field_ComponentInterpolationSet for C(5) needs to be correspondingly set!  
+      ! Set spatial update case - WARNING: cmfe_Field_ComponentInterpolationSet for C(9) needs to be correspondingly set!  
       alpha_SU = 1
 
       SELECT CASE (alpha_SU)
@@ -1006,39 +1024,45 @@ write(*,*) "applied BCs"
           CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,9, &
             & alpha_t,Err)
           write(*,*) "Activation, MaxStress, Activation*MaxStress: ", alpha_t, C(11), alpha_t*C(11)
-        CASE(2) ! Element based (working)
+        !CASE(2) ! Element based (working)
           ! loop over all elements
-          DO elem_idx=1,NumberOfElementsFE
-            CALL cmfe_Field_ParameterSetUpdateElement(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,&
-              & elem_idx,9,alpha_t,Err)
-          END DO        
+          !DO elem_idx=1,NumberOfElementsFE
+            !CALL cmfe_Field_ParameterSetUpdateElement(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,&
+              !& elem_idx,9,alpha_t,Err)
+          !END DO        
         
-        CASE(3) ! Node based
+        !CASE(3) ! Node based
           ! loop over all nodes
-          DO node_idx=1,TotalNumberOfNodes 
-            CALL cmfe_Field_ParameterSetUpdateNode(MaterialField,& 
-              & CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,1, 1, node_idx,9,alpha_t,Err)      
-          END DO       
+          !DO node_idx=1,TotalNumberOfNodes 
+            !CALL cmfe_Field_ParameterSetUpdateNode(MaterialField,& 
+              !& CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,1, 1, node_idx,9,alpha_t,Err)      
+          !END DO       
 
-        CASE(4) !Gauss-point based
+        !CASE(4) !Gauss-point based
           ! loop over all elements
-          DO elem_idx=1,NumberOfElementsFE
+          !DO elem_idx=1,NumberOfElementsFE
             ! loop over all gauss points
-            DO gauss_idx = 1, NumberOfGaussXi
-              CALL cmfe_Field_ParameterSetUpdateGaussPoint(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,&
-                & gauss_idx, elem_idx, 9, alpha_t, Err)
-            END DO 
-          END DO       
+            !DO gauss_idx = 1, NumberOfGaussXi
+              !CALL cmfe_Field_ParameterSetUpdateGaussPoint(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,&
+                !& gauss_idx, elem_idx, 9, alpha_t, Err)
+            !END DO 
+          !END DO       
 
         CASE DEFAULT ! Entire muscle (working)
            CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,9, &
             & alpha_t,Err)     
       END SELECT! Spatial alpha update------------------------------------------------------------------------------------------END
-    CALL cmfe_ControlLoop_TimesSet(ControlLoopMain,time,time+PERIOD,ELASTICITY_TIME_STEP,Err)
+    
+    ! time loop
+    !CALL cmfe_ControlLoop_TimesSet(ControlLoopMain,time,time+PERIOD,ELASTICITY_TIME_STEP,Err)
     ! Solve the mechanical problem fpr this time step
     CALL cmfe_Problem_Solve(Problem,Err)
-    time = i/10.0_CMISSRP
+    time = time + PERIOD
   
+    ! Set how alpha evolves over time (may choose to keep it constant, scale it, etc.)
+    !alpha_t = exp(alpha(i))-1.0_CMISSRP
+    i = i+1
+    alpha_t = alpha_t + alpha_inc
     ! update the mechanical boundary condition -------------------------------------------------------------------------------START
       !DO node_idx=1,SIZE(BOTTOM_NODES,1)
         !NodeNumber=BOTTOM_NODES(node_idx)

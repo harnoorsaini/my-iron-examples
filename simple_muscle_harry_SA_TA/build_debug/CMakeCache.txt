@@ -284,6 +284,12 @@ SUPERLU_DIST_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu
 //The directory containing a CMake configuration file for ZLIB.
 ZLIB_DIR:PATH=/usr/local/opencmiss/dependencies/install/x86_64_linux/gnu-5.4-F5.4/no_mpi/debug/cmake
 
+//Path to a program.
+file_cmd:FILEPATH=/usr/bin/file
+
+//Path to a program.
+readlink_cmd:FILEPATH=/bin/readlink
+
 
 ########################
 # INTERNAL cache entries
@@ -483,5 +489,9 @@ _OPENSSL_openssl_LIBDIR:INTERNAL=
 _OPENSSL_openssl_PREFIX:INTERNAL=
 _OPENSSL_openssl_VERSION:INTERNAL=
 __pkg_config_checked__OPENSSL:INTERNAL=1
+//ADVANCED property for variable: file_cmd
+file_cmd-ADVANCED:INTERNAL=1
 prefix_result:INTERNAL=/usr/lib/x86_64-linux-gnu
+//ADVANCED property for variable: readlink_cmd
+readlink_cmd-ADVANCED:INTERNAL=1
 
