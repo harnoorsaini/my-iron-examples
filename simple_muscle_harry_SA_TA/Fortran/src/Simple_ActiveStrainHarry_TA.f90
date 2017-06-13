@@ -127,16 +127,16 @@ PROGRAM LARGEUNIAXIALEXTENSIONEXAMPLE
 
   ! "original" parameters
   REAL(CMISSRP), PARAMETER, DIMENSION(11) :: C= &
-    & [3.56E-2_CMISSRP,3.86E-2_CMISSRP,0.3E-8_CMISSRP, &
-    &  34.0_CMISSRP,3.56E-2_CMISSRP, 3.86E-2_CMISSRP, 0.3E-8_CMISSRP, &
+    & [3.56E-1_CMISSRP,3.86E-1_CMISSRP,0.3E-8_CMISSRP, &
+    &  34.0_CMISSRP,3.56E-1_CMISSRP, 3.86E-1_CMISSRP, 0.3E-8_CMISSRP, &
     &  34.0_CMISSRP, 0.0_CMISSRP, 1.0_CMISSRP, 0.5_CMISSRP]   
 
   ! Test program parameters
   REAL(CMISSRP), PARAMETER :: MPc = 1.0_CMISSRP ! Material Parameter constant multiplied; ONLY PARAMETERS 1-8
   REAL(CMISSDP), PARAMETER :: PI=4.0_CMISSRP*DATAN(1.0_CMISSRP)
   REAL(CMISSRP), PARAMETER :: PERIOD=1.0_CMISSRP
-  REAL(CMISSRP), PARAMETER :: TIME_STOP =10000.0_CMISSRP
-  REAL(CMISSRP), PARAMETER :: alpha_inc = 1.0E-5_CMISSRP
+  REAL(CMISSRP), PARAMETER :: TIME_STOP =5.0_CMISSRP
+  REAL(CMISSRP), PARAMETER :: alpha_inc = 0.0_CMISSRP
   
 
   !INTEGER(CMISSIntg), PARAMETER :: InterpolationType=CMFE_BASIS_LINEAR_LAGRANGE_INTERPOLATION
@@ -494,7 +494,7 @@ INTEGER(CMISSIntg), DIMENSION(NumberOfElementsFE,27), PARAMETER :: AllElementNod
   DO j=1,NumberOfElementsFE
     CALL cmfe_MeshElements_NodesSet(LinearElements,j,AllQuadraticElements(j,ENTRIES),Err)
   ENDDO
-  CALL cmfe_MeshElements_CreateFinish(LinearElements,Err)
+    CALL cmfe_MeshElements_CreateFinish(LinearElements,Err)
 
   CALL cmfe_Mesh_CreateFinish(Mesh,Err) 
 
@@ -1024,6 +1024,22 @@ write(*,*) "applied BCs"
           CALL cmfe_Field_ComponentValuesInitialise(MaterialField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,9, &
             & alpha_t,Err)
           write(*,*) "Activation, MaxStress, Activation*MaxStress: ", alpha_t, C(11), alpha_t*C(11)
+
+          !Extend bottom nodes in the z-direction
+          do j=1,21
+            NodeNumber=BOTTOM_NODES(j)
+            CALL cmfe_Decomposition_NodeDomainGet(Decomposition,NodeNumber,1,NodeDomain,Err)
+            IF(NodeDomain==ComputationalNodeNumber) THEN
+              CALL cmfe_Field_ParameterSetGetNode(GeometricField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,1,1, & 
+                & NodeNumber,3,VALUE,Err)
+              CALL cmfe_Field_ParameterSetAddNode(DependentField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE, &
+                & 1,1,NodeNumber,3,BCLOAD,Err)   
+            ENDIF
+          enddo
+
+
+
+
         !CASE(2) ! Element based (working)
           ! loop over all elements
           !DO elem_idx=1,NumberOfElementsFE
@@ -1063,6 +1079,7 @@ write(*,*) "applied BCs"
     !alpha_t = exp(alpha(i))-1.0_CMISSRP
     i = i+1
     alpha_t = alpha_t + alpha_inc
+    BCLOAD = BCLOAD + 5E-1_CMISSRP
     ! update the mechanical boundary condition -------------------------------------------------------------------------------START
       !DO node_idx=1,SIZE(BOTTOM_NODES,1)
         !NodeNumber=BOTTOM_NODES(node_idx)

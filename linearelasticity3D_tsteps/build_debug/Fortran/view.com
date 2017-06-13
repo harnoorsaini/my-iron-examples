@@ -1,5 +1,5 @@
 #Read in the sequence of nodal positions.
-for $i (1..50)
+for $i (1..5)
   {
 	 $filename = sprintf("UniaxialExtension2D_%d.part0.exnode", $i);
 	 
